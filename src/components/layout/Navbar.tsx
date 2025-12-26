@@ -50,8 +50,8 @@ const Navbar = () => {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-background/95 backdrop-blur-md shadow-md"
+        isScrolled || isOpen
+          ? "bg-background shadow-md"
           : "bg-transparent"
       )}
     >
@@ -144,11 +144,11 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         <div
           className={cn(
-            "lg:hidden overflow-hidden transition-all duration-300",
+            "lg:hidden overflow-hidden transition-all duration-300 bg-background",
             isOpen ? "max-h-[80vh] pb-6" : "max-h-0"
           )}
         >
-          <div className="space-y-1 pt-4 border-t">
+          <div className="space-y-1 pt-4 border-t border-border">
             {navLinks.map((link) => (
               <div key={link.label}>
                 {link.submenu ? (
