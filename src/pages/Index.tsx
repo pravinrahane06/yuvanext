@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/layout/Layout";
@@ -11,7 +11,7 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pb-32">
         {/* Animated Background */}
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -64,31 +64,30 @@ const Index = () => {
               </Button>
             </div>
 
-            {/* Stats */}
+            {/* Stats - Glassmorphic Card */}
             <div
-              className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 animate-fade-in"
+              className="mt-20 animate-fade-in"
               style={{ animationDelay: "0.8s" }}
             >
-              {[
-                { number: "5+", label: "Programs" },
-                { number: "1000+", label: "Lives Impacted" },
-                { number: "50+", label: "Volunteers" },
-                { number: "10+", label: "Communities" },
-              ].map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-muted-foreground text-sm">{stat.label}</div>
+              <div className="bg-background/60 dark:bg-background/40 backdrop-blur-xl rounded-2xl border border-border/50 shadow-xl p-8 md:p-10">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                  {[
+                    { number: "5+", label: "Programs" },
+                    { number: "1000+", label: "Lives Impacted" },
+                    { number: "50+", label: "Volunteers" },
+                    { number: "10+", label: "Communities" },
+                  ].map((stat, index) => (
+                    <div key={index} className="text-center">
+                      <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
+                        {stat.number}
+                      </div>
+                      <div className="text-muted-foreground text-sm font-medium">{stat.label}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <ChevronRight className="w-8 h-8 text-muted-foreground rotate-90" />
         </div>
       </section>
 
