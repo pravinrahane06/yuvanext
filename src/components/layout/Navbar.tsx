@@ -1,0 +1,229 @@
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+const navLinks = [
+  { label: "Home", href: "/" },
+  {
+    label: "About",
+    href: "/about",
+    submenu: [
+      { label: "About Us", href: "/about" },
+      { label: "Vision & Mission", href: "/vision-mission" },
+      { label: "360 Objectives", href: "/objectives" },
+    ],
+  },
+  { label: "Programs", href: "/programs" },
+  { label: "Activities", href: "/activities" },
+  { label: "Get Involved", href: "/get-involved" },
+  { label: "Transparency", href: "/transparency" },
+  { label: "Contact", href: "/contact" },
+];
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setIsOpen(false);
+    setOpenSubmenu(null);
+  }, [location]);
+
+  const isActive = (href: string) => {
+    if (href === "/") return location.pathname === "/";
+    return location.pathname.startsWith(href);
+  };
+
+  return (
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled
+          ? "bg-background/95 backdrop-blur-md shadow-md"
+          : "bg-transparent"
+      )}
+    >
+      <nav className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-12 h-12 rounded-full bg-gradient-saffron flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-xl">Y</span>
+            </div>
+            <div className="hidden sm:block">
+              <h1 className="text-xl font-bold text-foreground">YUVANEXT</h1>
+              <p className="text-xs text-muted-foreground -mt-1">FOUNDATION</p>
+            </div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <div key={link.label} className="relative group">
+                {link.submenu ? (
+                  <>
+                    <button
+                      className={cn(
+                        "px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1",
+                        isActive(link.href)
+                          ? "text-primary"
+                          : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                      )}
+                    >
+                      {link.label}
+                      <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                    </button>
+                    <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                      <div className="bg-card rounded-lg shadow-lg border p-2 min-w-[180px]">
+                        {link.submenu.map((sub) => (
+                          <Link
+                            key={sub.href}
+                            to={sub.href}
+                            className={cn(
+                              "block px-4 py-2 rounded-md text-sm transition-colors",
+                              isActive(sub.href)
+                                ? "bg-primary/10 text-primary"
+                                : "text-foreground/80 hover:bg-primary/5 hover:text-primary"
+                            )}
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <Link
+                    to={link.href}
+                    className={cn(
+                      "px-4 py-2 rounded-md text-sm font-medium transition-colors",
+                      isActive(link.href)
+                        ? "text-primary"
+                        : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Button */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Button asChild variant="outline" size="sm">
+              <Link to="/donate">Donate</Link>
+            </Button>
+            <Button asChild size="sm">
+              <Link to="/get-involved">Join Us</Link>
+            </Button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="lg:hidden p-2 rounded-md hover:bg-muted transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div
+          className={cn(
+            "lg:hidden overflow-hidden transition-all duration-300",
+            isOpen ? "max-h-[80vh] pb-6" : "max-h-0"
+          )}
+        >
+          <div className="space-y-1 pt-4 border-t">
+            {navLinks.map((link) => (
+              <div key={link.label}>
+                {link.submenu ? (
+                  <>
+                    <button
+                      onClick={() =>
+                        setOpenSubmenu(openSubmenu === link.label ? null : link.label)
+                      }
+                      className={cn(
+                        "w-full px-4 py-3 rounded-md text-sm font-medium transition-colors flex items-center justify-between",
+                        isActive(link.href)
+                          ? "text-primary bg-primary/5"
+                          : "text-foreground/80"
+                      )}
+                    >
+                      {link.label}
+                      <ChevronDown
+                        className={cn(
+                          "w-4 h-4 transition-transform",
+                          openSubmenu === link.label && "rotate-180"
+                        )}
+                      />
+                    </button>
+                    <div
+                      className={cn(
+                        "overflow-hidden transition-all duration-200",
+                        openSubmenu === link.label ? "max-h-40" : "max-h-0"
+                      )}
+                    >
+                      <div className="pl-4 space-y-1 py-2">
+                        {link.submenu.map((sub) => (
+                          <Link
+                            key={sub.href}
+                            to={sub.href}
+                            className={cn(
+                              "block px-4 py-2 rounded-md text-sm transition-colors",
+                              isActive(sub.href)
+                                ? "bg-primary/10 text-primary"
+                                : "text-foreground/70 hover:text-primary"
+                            )}
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <Link
+                    to={link.href}
+                    className={cn(
+                      "block px-4 py-3 rounded-md text-sm font-medium transition-colors",
+                      isActive(link.href)
+                        ? "text-primary bg-primary/5"
+                        : "text-foreground/80"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                )}
+              </div>
+            ))}
+            <div className="flex gap-3 pt-4 px-4">
+              <Button asChild variant="outline" className="flex-1">
+                <Link to="/donate">Donate</Link>
+              </Button>
+              <Button asChild className="flex-1">
+                <Link to="/get-involved">Join Us</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default Navbar;
