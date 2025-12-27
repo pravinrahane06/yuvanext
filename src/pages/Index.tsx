@@ -6,8 +6,19 @@ import Layout from "@/components/layout/Layout";
 import SectionHeading from "@/components/ui/SectionHeading";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 import { focusAreas, activities, coreValues } from "@/data/siteData";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Index = () => {
+  const { t, language } = useTranslation();
+
+  const getLocalizedDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString(language === "mr" ? "mr-IN" : "en-IN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -28,25 +39,25 @@ const Index = () => {
             <div
               className="inline-block px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium mb-8 animate-fade-in"
             >
-              Section-8 Registered Non-Profit Organization
+              {t("hero.badge")}
             </div>
 
             <h1
               className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 animate-fade-in"
               style={{ animationDelay: "0.2s" }}
             >
-              Empowering{" "}
-              <span className="text-gradient-saffron">Youth</span>
+              {t("hero.empowering")}{" "}
+              <span className="text-gradient-saffron">{t("hero.youth")}</span>
               <br />
-              Transforming{" "}
-              <span className="text-gradient-green">Communities</span>
+              {t("hero.transforming")}{" "}
+              <span className="text-gradient-green">{t("hero.communities")}</span>
             </h1>
 
             <p
               className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in"
               style={{ animationDelay: "0.4s" }}
             >
-              Building a brighter future through education, health, and sustainable development initiatives.
+              {t("hero.subtitle")}
             </p>
 
             <div
@@ -55,12 +66,12 @@ const Index = () => {
             >
               <Button asChild size="lg" className="text-lg px-8">
                 <Link to="/get-involved">
-                  Join Our Mission
+                  {t("hero.joinMission")}
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8">
-                <Link to="/about">Learn More</Link>
+                <Link to="/about">{t("hero.learnMore")}</Link>
               </Button>
             </div>
 
@@ -72,10 +83,10 @@ const Index = () => {
               <div className="bg-background/60 dark:bg-background/40 backdrop-blur-xl rounded-2xl border border-border/50 shadow-xl p-8 md:p-10">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
                   {[
-                    { number: "5+", label: "Programs" },
-                    { number: "1000+", label: "Lives Impacted" },
-                    { number: "50+", label: "Volunteers" },
-                    { number: "10+", label: "Communities" },
+                    { number: "5+", label: t("stats.programs") },
+                    { number: "1000+", label: t("stats.livesImpacted") },
+                    { number: "50+", label: t("stats.volunteers") },
+                    { number: "10+", label: t("stats.communities") },
                   ].map((stat, index) => (
                     <div key={index} className="text-center">
                       <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
@@ -97,23 +108,20 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-left">
               <div className="inline-block px-4 py-2 bg-accent/10 rounded-full text-accent text-sm font-medium mb-6">
-                About Us
+                {t("about.badge")}
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-                Who We Are
+                {t("about.whoWeAre")}
               </h2>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                YUVANEXT Foundation is a Section-8 registered non-profit organization 
-                committed to empowering youth and transforming communities across India. 
-                We believe in the power of collective action and sustainable development.
+                {t("about.description1")}
               </p>
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                Our holistic approach addresses education, health, environment, and 
-                economic empowerment, creating lasting positive change in society.
+                {t("about.description2")}
               </p>
               <Button asChild>
                 <Link to="/about">
-                  Discover Our Story
+                  {t("about.discoverStory")}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Button>
@@ -129,8 +137,12 @@ const Index = () => {
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                       <DynamicIcon name={value.icon} className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="font-semibold text-foreground mb-2">{value.title}</h3>
-                    <p className="text-sm text-muted-foreground">{value.description}</p>
+                    <h3 className="font-semibold text-foreground mb-2">
+                      {t(`coreValues.${value.title.toLowerCase()}.title`)}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {t(`coreValues.${value.title.toLowerCase()}.description`)}
+                    </p>
                   </CardContent>
                 </Card>
               ))}
@@ -143,8 +155,8 @@ const Index = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <SectionHeading
-            title="Our Focus Areas"
-            subtitle="We work across multiple sectors to create comprehensive and sustainable impact in communities."
+            title={t("focusAreas.title")}
+            subtitle={t("focusAreas.subtitle")}
           />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -165,9 +177,9 @@ const Index = () => {
                     <DynamicIcon name={area.icon} className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-semibold text-foreground mb-3">
-                    {area.title}
+                    {t(`focusAreasData.${area.id}.title`)}
                   </h3>
-                  <p className="text-muted-foreground">{area.description}</p>
+                  <p className="text-muted-foreground">{t(`focusAreasData.${area.id}.description`)}</p>
                 </CardContent>
               </Card>
             ))}
@@ -176,7 +188,7 @@ const Index = () => {
           <div className="text-center mt-12">
             <Button asChild variant="outline" size="lg">
               <Link to="/programs">
-                View All Programs
+                {t("focusAreas.viewAll")}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
@@ -188,8 +200,8 @@ const Index = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <SectionHeading
-            title="Latest Activities"
-            subtitle="Stay updated with our recent initiatives and community impact stories."
+            title={t("activities.latestTitle")}
+            subtitle={t("activities.latestSubtitle")}
           />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -207,17 +219,13 @@ const Index = () => {
                   />
                   <div className="absolute top-4 left-4">
                     <span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full">
-                      {activity.category}
+                      {t(`categories.${activity.category.toLowerCase().replace(" ", "")}`)}
                     </span>
                   </div>
                 </div>
                 <CardContent className="p-6">
                   <p className="text-sm text-muted-foreground mb-2">
-                    {new Date(activity.date).toLocaleDateString("en-IN", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    {getLocalizedDate(activity.date)}
                   </p>
                   <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
                     {activity.title}
@@ -227,7 +235,7 @@ const Index = () => {
                     to={`/activities/${activity.id}`}
                     className="inline-flex items-center text-primary font-medium hover:gap-2 transition-all"
                   >
-                    Read More
+                    {t("activities.readMore")}
                     <ArrowRight className="ml-1 w-4 h-4" />
                   </Link>
                 </CardContent>
@@ -238,7 +246,7 @@ const Index = () => {
           <div className="text-center mt-12">
             <Button asChild size="lg">
               <Link to="/activities">
-                View All Activities
+                {t("activities.viewAll")}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
@@ -256,22 +264,20 @@ const Index = () => {
         <div className="container mx-auto px-4 relative">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Our Vision for Tomorrow
+              {t("cta.visionTitle")}
             </h2>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              To create a self-reliant, educated, and healthy society where every 
-              individual has the opportunity to realize their full potential and 
-              contribute to nation-building.
+              {t("cta.visionDesc")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg">
                 <Link to="/vision-mission">
-                  Explore Our Vision
+                  {t("cta.exploreVision")}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/objectives">View 360 Objectives</Link>
+                <Link to="/objectives">{t("cta.viewObjectives")}</Link>
               </Button>
             </div>
           </div>
@@ -283,11 +289,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Be Part of the Change
+              {t("cta.bePartTitle")}
             </h2>
             <p className="text-xl text-background/70 mb-10">
-              Join our community of changemakers and help us create a lasting impact. 
-              Every contribution, big or small, makes a difference.
+              {t("cta.bePartDesc")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -296,7 +301,7 @@ const Index = () => {
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 <Link to="/get-involved">
-                  Become a Volunteer
+                  {t("cta.becomeVolunteer")}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Button>
@@ -306,7 +311,7 @@ const Index = () => {
                 size="lg"
                 className="border-background/30 text-background hover:bg-background/10"
               >
-                <Link to="/donate">Support Our Cause</Link>
+                <Link to="/donate">{t("cta.supportCause")}</Link>
               </Button>
             </div>
           </div>

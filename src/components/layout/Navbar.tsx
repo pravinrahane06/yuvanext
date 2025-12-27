@@ -3,30 +3,33 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-const navLinks = [
-  { label: "Home", href: "/" },
-  {
-    label: "About",
-    href: "/about",
-    submenu: [
-      { label: "About Us", href: "/about" },
-      { label: "Vision & Mission", href: "/vision-mission" },
-      { label: "360 Objectives", href: "/objectives" },
-    ],
-  },
-  { label: "Programs", href: "/programs" },
-  { label: "Activities", href: "/activities" },
-  { label: "Get Involved", href: "/get-involved" },
-  { label: "Transparency", href: "/transparency" },
-  { label: "Contact", href: "/contact" },
-];
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const location = useLocation();
+  const { t } = useTranslation();
+
+  const navLinks = [
+    { label: t("nav.home"), href: "/" },
+    {
+      label: t("nav.about"),
+      href: "/about",
+      submenu: [
+        { label: t("nav.aboutUs"), href: "/about" },
+        { label: t("nav.visionMission"), href: "/vision-mission" },
+        { label: t("nav.objectives"), href: "/objectives" },
+      ],
+    },
+    { label: t("nav.programs"), href: "/programs" },
+    { label: t("nav.activities"), href: "/activities" },
+    { label: t("nav.getInvolved"), href: "/get-involved" },
+    { label: t("nav.transparency"), href: "/transparency" },
+    { label: t("nav.contact"), href: "/contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,7 +74,7 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
-              <div key={link.label} className="relative group">
+              <div key={link.href} className="relative group">
                 {link.submenu ? (
                   <>
                     <button
@@ -121,13 +124,14 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button + Language Switcher */}
           <div className="hidden lg:flex items-center gap-3">
+            <LanguageSwitcher />
             <Button asChild variant="outline" size="sm">
-              <Link to="/donate">Donate</Link>
+              <Link to="/donate">{t("nav.donate")}</Link>
             </Button>
             <Button asChild size="sm">
-              <Link to="/get-involved">Join Us</Link>
+              <Link to="/get-involved">{t("nav.joinUs")}</Link>
             </Button>
           </div>
 
@@ -149,8 +153,13 @@ const Navbar = () => {
           )}
         >
           <div className="space-y-1 pt-4 border-t border-border">
+            {/* Language Switcher for Mobile */}
+            <div className="px-4 pb-4">
+              <LanguageSwitcher />
+            </div>
+            
             {navLinks.map((link) => (
-              <div key={link.label}>
+              <div key={link.href}>
                 {link.submenu ? (
                   <>
                     <button
@@ -213,10 +222,10 @@ const Navbar = () => {
             ))}
             <div className="flex gap-3 pt-4 px-4">
               <Button asChild variant="outline" className="flex-1">
-                <Link to="/donate">Donate</Link>
+                <Link to="/donate">{t("nav.donate")}</Link>
               </Button>
               <Button asChild className="flex-1">
-                <Link to="/get-involved">Join Us</Link>
+                <Link to="/get-involved">{t("nav.joinUs")}</Link>
               </Button>
             </div>
           </div>
