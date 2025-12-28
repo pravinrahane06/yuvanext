@@ -5,13 +5,26 @@ import Layout from "@/components/layout/Layout";
 import PageHero from "@/components/ui/PageHero";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 import { objectives } from "@/data/siteData";
+import { useTranslation } from "@/hooks/useTranslation";
+
+const objectiveKeys = [
+  "youthLeadership",
+  "digitalLiteracy",
+  "ruralDevelopment",
+  "healthcareAccess",
+  "environmentalConservation",
+  "economicEmpowerment",
+  "socialJustice",
+];
 
 const Objectives = () => {
+  const { t } = useTranslation();
+
   return (
     <Layout>
       <PageHero
-        title="360° Objectives"
-        subtitle="Our comprehensive approach to holistic development across seven key areas."
+        title={t("objectives.title")}
+        subtitle={t("objectives.subtitle")}
       />
 
       {/* Objectives Grid */}
@@ -50,15 +63,15 @@ const Objectives = () => {
                     </div>
 
                     <span className="text-sm font-medium text-muted-foreground mb-2 block">
-                      Objective {objective.id}
+                      {t("objectives.keyObjectives")} {objective.id}
                     </span>
 
                     <h3 className="text-xl font-semibold text-foreground mb-4">
-                      {objective.title}
+                      {t(`objectivesData.${objectiveKeys[index]}.title`)}
                     </h3>
 
                     <p className="text-muted-foreground leading-relaxed">
-                      {objective.description}
+                      {t(`objectivesData.${objectiveKeys[index]}.description`)}
                     </p>
                   </div>
                 </div>
@@ -70,12 +83,11 @@ const Objectives = () => {
               <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent text-primary-foreground">
                 <div className="text-center">
                   <span className="text-4xl font-bold">360°</span>
-                  <span className="block text-sm">Approach</span>
+                  <span className="block text-sm">{t("objectives.approach")}</span>
                 </div>
               </div>
               <p className="text-lg text-muted-foreground mt-6 max-w-2xl mx-auto">
-                Our 360-degree approach ensures comprehensive development by addressing 
-                all interconnected aspects of community welfare.
+                {t("objectives.approachDesc")}
               </p>
             </div>
           </div>
@@ -87,19 +99,17 @@ const Objectives = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8">
-              Creating Holistic Impact
+              {t("objectives.impactTitle")}
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Each of our seven objectives is interconnected, creating a ripple effect 
-              of positive change. When we educate a young person, we're not just building 
-              their future—we're strengthening families, communities, and the nation.
+              {t("objectives.impactDesc")}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { number: "7", label: "Key Objectives" },
-                { number: "5+", label: "Active Programs" },
-                { number: "100%", label: "Community Focus" },
-                { number: "∞", label: "Commitment" },
+                { number: "7", label: t("objectives.keyObjectives") },
+                { number: "5+", label: t("stats.programs") },
+                { number: "100%", label: t("objectives.successRate") },
+                { number: "∞", label: t("vision.commitment") },
               ].map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="text-4xl font-bold text-primary mb-2">
@@ -118,20 +128,20 @@ const Objectives = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              See Our Programs in Action
+              {t("objectives.viewPrograms")}
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Explore how we translate our objectives into impactful programs.
+              {t("programs.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg">
                 <Link to="/programs">
-                  View Programs
+                  {t("objectives.viewPrograms")}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/activities">See Activities</Link>
+                <Link to="/activities">{t("objectives.seeActivities")}</Link>
               </Button>
             </div>
           </div>
