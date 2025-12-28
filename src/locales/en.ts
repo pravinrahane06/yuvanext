@@ -25,6 +25,7 @@ export const en = {
     subtitle: "Building a brighter future through education, health, and sustainable development initiatives.",
     joinMission: "Join Our Mission",
     learnMore: "Learn More",
+    donateComingSoon: "Donate (Coming Soon)",
   },
 
   // Stats
