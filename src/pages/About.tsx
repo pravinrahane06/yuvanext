@@ -7,32 +7,37 @@ import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 import { coreValues } from "@/data/siteData";
-
-const whyYuvanext = [
-  {
-    title: "Youth-Centric Approach",
-    description: "Our programs are designed with young people at the center, ensuring relevance and maximum impact.",
-  },
-  {
-    title: "Grassroots Connection",
-    description: "We work directly with communities, understanding their unique needs and challenges.",
-  },
-  {
-    title: "Sustainable Impact",
-    description: "Our initiatives focus on creating long-term, sustainable change rather than temporary solutions.",
-  },
-  {
-    title: "Transparent Operations",
-    description: "Complete transparency in our operations and finances, ensuring every rupee counts.",
-  },
-];
+import { useTranslation } from "@/hooks/useTranslation";
 
 const About = () => {
+  const { t } = useTranslation();
+
+  const whyYuvanext = [
+    {
+      titleKey: "whyYuvanextData.youthCentric.title",
+      descKey: "whyYuvanextData.youthCentric.description",
+    },
+    {
+      titleKey: "whyYuvanextData.grassroots.title",
+      descKey: "whyYuvanextData.grassroots.description",
+    },
+    {
+      titleKey: "whyYuvanextData.sustainable.title",
+      descKey: "whyYuvanextData.sustainable.description",
+    },
+    {
+      titleKey: "whyYuvanextData.transparent.title",
+      descKey: "whyYuvanextData.transparent.description",
+    },
+  ];
+
+  const coreValueKeys = ["transparency", "inclusivity", "sustainability", "collaboration"];
+
   return (
     <Layout>
       <PageHero
-        title="About Us"
-        subtitle="Learn about our journey, values, and commitment to creating positive change in society."
+        title={t("nav.aboutUs")}
+        subtitle={t("about.description2")}
       />
 
       {/* Who We Are */}
@@ -41,30 +46,19 @@ const About = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <div className="inline-block px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium mb-6">
-                Section-8 Registered Organization
+                {t("hero.badge")}
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Who We Are
+                {t("about.whoWeAre")}
               </h2>
             </div>
 
             <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
               <p className="text-lg leading-relaxed">
-                <strong className="text-foreground">YUVANEXT Foundation</strong> is a Section-8 
-                registered non-profit organization established with a vision to empower youth and 
-                transform communities across India. Registered under the Companies Act, 2013, we 
-                are committed to transparency, accountability, and sustainable impact.
+                {t("about.description1")}
               </p>
               <p className="text-lg leading-relaxed">
-                Our foundation was born from the belief that young people are the driving force 
-                of positive change. By investing in their education, health, and skills, we can 
-                build a stronger, more equitable society for all.
-              </p>
-              <p className="text-lg leading-relaxed">
-                We operate across multiple focus areas including education, healthcare, 
-                environmental conservation, women empowerment, and community development. Our 
-                holistic approach ensures that we address the interconnected challenges facing 
-                our communities.
+                {t("about.description2")}
               </p>
             </div>
           </div>
@@ -75,8 +69,8 @@ const About = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <SectionHeading
-            title="Why YUVANEXT?"
-            subtitle="What makes us different in our approach to social development."
+            title={t("about.whyYuvanext")}
+            subtitle=""
           />
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -88,9 +82,9 @@ const About = () => {
                 <CheckCircle className="w-6 h-6 text-accent shrink-0 mt-1" />
                 <div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">
-                    {item.title}
+                    {t(item.titleKey)}
                   </h3>
-                  <p className="text-muted-foreground">{item.description}</p>
+                  <p className="text-muted-foreground">{t(item.descKey)}</p>
                 </div>
               </div>
             ))}
@@ -102,26 +96,26 @@ const About = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <SectionHeading
-            title="Our Approach"
-            subtitle="A systematic methodology to create lasting change."
+            title={t("about.ourApproach")}
+            subtitle=""
           />
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 step: "01",
-                title: "Identify",
-                description: "We identify communities and individuals who need support through ground-level research and community engagement.",
+                title: t("about.identify"),
+                description: t("about.identifyDesc"),
               },
               {
                 step: "02",
-                title: "Implement",
-                description: "We design and implement tailored programs that address specific needs with measurable outcomes.",
+                title: t("about.implement"),
+                description: t("about.implementDesc"),
               },
               {
                 step: "03",
-                title: "Impact",
-                description: "We continuously monitor, evaluate, and improve our programs to maximize sustainable impact.",
+                title: t("about.impact"),
+                description: t("about.impactDesc"),
               },
             ].map((item, index) => (
               <div key={index} className="text-center p-8 bg-card rounded-xl border card-hover">
@@ -142,8 +136,8 @@ const About = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <SectionHeading
-            title="Our Core Values"
-            subtitle="The principles that guide everything we do."
+            title={t("coreValuesData.title")}
+            subtitle=""
           />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -154,9 +148,11 @@ const About = () => {
                     <DynamicIcon name={value.icon} className="w-8 h-8 text-accent" />
                   </div>
                   <h3 className="text-xl font-semibold text-foreground mb-3">
-                    {value.title}
+                    {t(`coreValuesData.${coreValueKeys[index]}.title`)}
                   </h3>
-                  <p className="text-muted-foreground">{value.description}</p>
+                  <p className="text-muted-foreground">
+                    {t(`coreValuesData.${coreValueKeys[index]}.description`)}
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -169,20 +165,20 @@ const About = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Ready to Make a Difference?
+              {t("getInvolved.supportCta")}
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Join our community of changemakers and help us create lasting impact.
+              {t("cta.bePartDesc")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg">
                 <Link to="/get-involved">
-                  Get Involved
+                  {t("nav.getInvolved")}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/vision-mission">Our Vision & Mission</Link>
+                <Link to="/vision-mission">{t("nav.visionMission")}</Link>
               </Button>
             </div>
           </div>

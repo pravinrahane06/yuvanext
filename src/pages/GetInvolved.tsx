@@ -11,22 +11,24 @@ import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/layout/Layout";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-
-const skillOptions = [
-  "Teaching/Tutoring",
-  "Healthcare",
-  "IT/Technology",
-  "Marketing/Communications",
-  "Event Management",
-  "Photography/Videography",
-  "Counseling",
-  "Administration",
-];
+import { useTranslation } from "@/hooks/useTranslation";
 
 const GetInvolved = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const skillOptions = [
+    t("skillsData.teaching"),
+    t("skillsData.healthcare"),
+    t("skillsData.it"),
+    t("skillsData.marketing"),
+    t("skillsData.eventManagement"),
+    t("skillsData.photography"),
+    t("skillsData.counseling"),
+    t("skillsData.administration"),
+  ];
 
   const handleSkillChange = (skill: string, checked: boolean) => {
     if (checked) {
@@ -40,12 +42,11 @@ const GetInvolved = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission (will be replaced with PHP API call)
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     toast({
-      title: "Application Submitted!",
-      description: "Thank you for your interest. We'll get back to you soon.",
+      title: t("common.success"),
+      description: t("getInvolved.submit"),
     });
 
     setIsSubmitting(false);
@@ -56,37 +57,52 @@ const GetInvolved = () => {
   return (
     <Layout>
       <PageHero
-        title="Get Involved"
-        subtitle="Join our community of changemakers and make a difference in society."
+        title={t("getInvolved.title")}
+        subtitle={t("getInvolved.subtitle")}
       />
 
       {/* Ways to Contribute */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <SectionHeading
-            title="Ways to Contribute"
-            subtitle="There are many ways you can support our mission and create impact."
+            title={t("getInvolved.waysToContribute")}
+            subtitle=""
           />
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 icon: Users,
-                title: "Volunteer",
-                description: "Contribute your time and skills to our programs and initiatives.",
-                features: ["Flexible timing", "Skill-based tasks", "Field activities", "Training provided"],
+                title: t("getInvolved.volunteer"),
+                description: t("getInvolved.volunteerDesc"),
+                features: [
+                  t("volunteerFeatures.flexible"),
+                  t("volunteerFeatures.skillBased"),
+                  t("volunteerFeatures.field"),
+                  t("volunteerFeatures.training"),
+                ],
               },
               {
                 icon: Handshake,
-                title: "Partner With Us",
-                description: "Collaborate with us to expand our reach and impact.",
-                features: ["NGO partnerships", "Government tie-ups", "Academic collaborations", "Resource sharing"],
+                title: t("getInvolved.partnership"),
+                description: t("getInvolved.partnershipDesc"),
+                features: [
+                  t("partnershipFeatures.ngo"),
+                  t("partnershipFeatures.government"),
+                  t("partnershipFeatures.academic"),
+                  t("partnershipFeatures.resource"),
+                ],
               },
               {
                 icon: Building,
-                title: "CSR Partnership",
-                description: "Fulfill your CSR commitments through our impactful programs.",
-                features: ["Project funding", "Employee engagement", "Impact reporting", "Tax benefits"],
+                title: t("getInvolved.csr"),
+                description: t("getInvolved.csrDesc"),
+                features: [
+                  t("csrFeatures.projectFunding"),
+                  t("csrFeatures.employee"),
+                  t("csrFeatures.impact"),
+                  t("csrFeatures.tax"),
+                ],
               },
             ].map((item, index) => (
               <Card key={index} className="card-hover">
@@ -118,8 +134,8 @@ const GetInvolved = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <SectionHeading
-              title="Become a Volunteer"
-              subtitle="Fill out the form below to join our volunteer community."
+              title={t("getInvolved.volunteerForm")}
+              subtitle=""
             />
 
             <Card>
@@ -127,28 +143,28 @@ const GetInvolved = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Full Name *</Label>
-                      <Input id="name" placeholder="Enter your name" required />
+                      <Label htmlFor="name">{t("getInvolved.fullName")} *</Label>
+                      <Input id="name" placeholder={t("getInvolved.fullName")} required />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email Address *</Label>
-                      <Input id="email" type="email" placeholder="Enter your email" required />
+                      <Label htmlFor="email">{t("getInvolved.email")} *</Label>
+                      <Input id="email" type="email" placeholder={t("getInvolved.email")} required />
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number *</Label>
-                      <Input id="phone" type="tel" placeholder="Enter your phone" required />
+                      <Label htmlFor="phone">{t("getInvolved.phone")} *</Label>
+                      <Input id="phone" type="tel" placeholder={t("getInvolved.phone")} required />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="city">City *</Label>
-                      <Input id="city" placeholder="Your city" required />
+                      <Label htmlFor="city">{t("getInvolved.city")} *</Label>
+                      <Input id="city" placeholder={t("getInvolved.city")} required />
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <Label>Skills & Interests *</Label>
+                    <Label>{t("getInvolved.skills")} *</Label>
                     <div className="grid grid-cols-2 gap-3">
                       {skillOptions.map((skill) => (
                         <div key={skill} className="flex items-center space-x-2">
@@ -171,21 +187,21 @@ const GetInvolved = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="availability">Availability</Label>
-                    <Input id="availability" placeholder="e.g., Weekends, 4 hours/week" />
+                    <Label htmlFor="availability">{t("getInvolved.availability")}</Label>
+                    <Input id="availability" placeholder={t("getInvolved.selectAvailability")} />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">Why do you want to volunteer?</Label>
+                    <Label htmlFor="message">{t("getInvolved.motivation")}</Label>
                     <Textarea
                       id="message"
-                      placeholder="Tell us about your motivation..."
+                      placeholder={t("getInvolved.motivation")}
                       rows={4}
                     />
                   </div>
 
                   <Button type="submit" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? "Submitting..." : "Submit Application"}
+                    {isSubmitting ? t("getInvolved.submitting") : t("getInvolved.submit")}
                   </Button>
                 </form>
               </CardContent>
@@ -201,20 +217,17 @@ const GetInvolved = () => {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl font-bold text-foreground mb-6">
-                  Become a Member
+                  {t("getInvolved.membership")}
                 </h2>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
-                  Join YUVANEXT Foundation as a member and be part of our growing 
-                  community of changemakers. Members enjoy exclusive benefits and 
-                  opportunities to participate in our governance.
+                  {t("getInvolved.membershipDesc")}
                 </p>
                 <ul className="space-y-3 mb-8">
                   {[
-                    "Voting rights in annual general meetings",
-                    "Priority access to events and programs",
-                    "Quarterly newsletters and updates",
-                    "Networking opportunities with like-minded individuals",
-                    "Certificate of membership",
+                    t("getInvolved.benefit1"),
+                    t("getInvolved.benefit2"),
+                    t("getInvolved.benefit3"),
+                    t("getInvolved.benefit4"),
                   ].map((benefit, index) => (
                     <li key={index} className="flex items-center gap-3">
                       <CheckCircle className="w-5 h-5 text-accent" />
@@ -224,7 +237,7 @@ const GetInvolved = () => {
                 </ul>
                 <Button asChild>
                   <Link to="/contact">
-                    Enquire About Membership
+                    {t("getInvolved.inquire")}
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                 </Button>
@@ -235,7 +248,7 @@ const GetInvolved = () => {
                     <Users className="w-10 h-10 text-primary" />
                   </div>
                   <h3 className="text-2xl font-bold text-foreground mb-2">50+</h3>
-                  <p className="text-muted-foreground">Active Members</p>
+                  <p className="text-muted-foreground">{t("getInvolved.membershipBenefits")}</p>
                 </div>
               </div>
             </div>
@@ -248,14 +261,14 @@ const GetInvolved = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Make an Impact?
+              {t("getInvolved.supportCta")}
             </h2>
             <p className="text-xl text-background/70 mb-8">
-              Whether you volunteer, partner, or donate, your contribution matters.
+              {t("getInvolved.supportCtaDesc")}
             </p>
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
               <Link to="/donate">
-                Support Our Cause
+                {t("getInvolved.supportNow")}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>

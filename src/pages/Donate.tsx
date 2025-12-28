@@ -6,22 +6,25 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import Layout from "@/components/layout/Layout";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-
-const donationOptions = [
-  { amount: "₹500", label: "Provide books for 5 students" },
-  { amount: "₹1,000", label: "Support a health camp" },
-  { amount: "₹2,500", label: "Plant 50 trees" },
-  { amount: "₹5,000", label: "Train 2 women in skills" },
-  { amount: "₹10,000", label: "Sponsor a month of tutoring" },
-  { amount: "Custom", label: "Enter your amount" },
-];
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Donate = () => {
+  const { t } = useTranslation();
+
+  const donationOptions = [
+    { amount: "₹500", label: t("donate.impact500") },
+    { amount: "₹1,000", label: t("donate.impact1000") },
+    { amount: "₹2,500", label: t("donate.impact5000") },
+    { amount: "₹5,000", label: t("donate.impact5000") },
+    { amount: "₹10,000", label: t("donate.impact10000") },
+    { amount: "Custom", label: t("donate.makeContribution") },
+  ];
+
   return (
     <Layout>
       <PageHero
-        title="Support Our Cause"
-        subtitle="Your contribution helps us create lasting change in communities across India."
+        title={t("donate.title")}
+        subtitle={t("donate.subtitle")}
       />
 
       {/* Coming Soon Notice */}
@@ -30,9 +33,7 @@ const Donate = () => {
           <Alert className="max-w-4xl mx-auto bg-primary/10 border-primary/20">
             <AlertCircle className="h-5 w-5 text-primary" />
             <AlertDescription className="text-foreground">
-              <strong>Online Donations Coming Soon!</strong> We are currently setting up 
-              our secure payment gateway. In the meantime, please contact us directly 
-              for donation inquiries.
+              <strong>{t("donate.comingSoon")}</strong> {t("donate.comingSoonDesc")}
             </AlertDescription>
           </Alert>
         </div>
@@ -42,8 +43,8 @@ const Donate = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <SectionHeading
-            title="Make a Difference"
-            subtitle="Choose how you'd like to contribute to our mission."
+            title={t("donate.makeContribution")}
+            subtitle=""
           />
 
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
@@ -65,7 +66,7 @@ const Donate = () => {
           <div className="text-center">
             <Button disabled size="lg" className="opacity-75">
               <Heart className="mr-2 w-5 h-5" />
-              Donate Now (Coming Soon)
+              {t("hero.donateComingSoon")}
             </Button>
           </div>
         </div>
@@ -75,8 +76,8 @@ const Donate = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <SectionHeading
-            title="Other Ways to Give"
-            subtitle="Explore different ways to support our programs."
+            title={t("donate.otherWays")}
+            subtitle=""
           />
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -85,22 +86,14 @@ const Donate = () => {
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                   <Building className="w-7 h-7 text-primary" />
                 </div>
-                <CardTitle>CSR Partnership</CardTitle>
+                <CardTitle>{t("donate.csrTitle")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6">
-                  Partner with us to fulfill your corporate social responsibility. 
-                  We offer customized programs, impact reporting, and employee 
-                  engagement opportunities.
+                  {t("donate.csrDesc")}
                 </p>
-                <ul className="space-y-2 text-sm text-muted-foreground mb-6">
-                  <li>• Project-based funding</li>
-                  <li>• Detailed impact assessment</li>
-                  <li>• Tax benefits under 80G</li>
-                  <li>• Brand visibility opportunities</li>
-                </ul>
                 <Button asChild variant="outline">
-                  <Link to="/contact">Contact for CSR</Link>
+                  <Link to="/contact">{t("donate.contactPartnership")}</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -110,21 +103,14 @@ const Donate = () => {
                 <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
                   <Gift className="w-7 h-7 text-accent" />
                 </div>
-                <CardTitle>In-Kind Donations</CardTitle>
+                <CardTitle>{t("donate.inKindTitle")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6">
-                  Contribute materials and resources directly to our programs. 
-                  We accept books, stationery, clothes, medical supplies, and more.
+                  {t("donate.inKindDesc")}
                 </p>
-                <ul className="space-y-2 text-sm text-muted-foreground mb-6">
-                  <li>• Educational materials</li>
-                  <li>• Medical equipment</li>
-                  <li>• Computer/IT equipment</li>
-                  <li>• Sports equipment</li>
-                </ul>
                 <Button asChild variant="outline">
-                  <Link to="/contact">Donate Materials</Link>
+                  <Link to="/contact">{t("donate.contactDonations")}</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -137,14 +123,14 @@ const Donate = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-foreground text-center mb-12">
-              Your Impact
+              {t("donate.impactTitle")}
             </h2>
             <div className="grid md:grid-cols-4 gap-8 text-center">
               {[
-                { number: "₹500", impact: "Provides books and stationery for 5 children" },
-                { number: "₹1,000", impact: "Funds one health awareness session" },
-                { number: "₹5,000", impact: "Supports vocational training for one woman" },
-                { number: "₹10,000", impact: "Plants and maintains 200 saplings" },
+                { number: "₹500", impact: t("donate.impact500") },
+                { number: "₹1,000", impact: t("donate.impact1000") },
+                { number: "₹5,000", impact: t("donate.impact5000") },
+                { number: "₹10,000", impact: t("donate.impact10000") },
               ].map((item, index) => (
                 <div key={index} className="p-6 bg-muted/30 rounded-xl">
                   <div className="text-2xl font-bold text-primary mb-3">
@@ -163,19 +149,14 @@ const Donate = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-foreground mb-6">
-              Tax Benefits
+              {t("donate.taxTitle")}
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              All donations to YUVANEXT Foundation are eligible for tax exemption 
-              under Section 80G of the Income Tax Act.
-            </p>
-            <p className="text-muted-foreground mb-8">
-              We will provide you with an official receipt for your contribution 
-              that can be used for tax filing purposes.
+              {t("donate.taxDesc")}
             </p>
             <Button asChild variant="outline" size="lg">
               <Link to="/transparency">
-                View Our Certifications
+                {t("donate.viewCertifications")}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
@@ -188,14 +169,14 @@ const Donate = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Questions About Donating?
+              {t("donate.contactCta")}
             </h2>
             <p className="text-xl text-background/70 mb-8">
-              Our team is here to help you find the best way to contribute.
+              {t("donate.contactCtaDesc")}
             </p>
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
               <Link to="/contact">
-                Contact Us
+                {t("donate.contactUs")}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>

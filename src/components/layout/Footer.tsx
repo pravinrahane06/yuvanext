@@ -11,23 +11,27 @@ import {
   Heart
 } from "lucide-react";
 import { contactInfo, socialLinks } from "@/data/siteData";
-
-const quickLinks = [
-  { label: "About Us", href: "/about" },
-  { label: "Programs", href: "/programs" },
-  { label: "Activities", href: "/activities" },
-  { label: "Get Involved", href: "/get-involved" },
-  { label: "Donate", href: "/donate" },
-  { label: "Contact", href: "/contact" },
-];
-
-const legalLinks = [
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/terms" },
-  { label: "Transparency", href: "/transparency" },
-];
+import { useTranslation } from "@/hooks/useTranslation";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
+  const quickLinks = [
+    { label: t("nav.aboutUs"), href: "/about" },
+    { label: t("nav.programs"), href: "/programs" },
+    { label: t("nav.activities"), href: "/activities" },
+    { label: t("nav.getInvolved"), href: "/get-involved" },
+    { label: t("nav.donate"), href: "/donate" },
+    { label: t("nav.contact"), href: "/contact" },
+  ];
+
+  const legalLinks = [
+    { label: t("footer.privacyPolicy"), href: "/privacy" },
+    { label: t("footer.termsOfService"), href: "/terms" },
+    { label: t("nav.transparency"), href: "/transparency" },
+  ];
+
   return (
     <footer className="bg-foreground text-background">
       {/* Main Footer */}
@@ -36,17 +40,10 @@ const Footer = () => {
           {/* About Section */}
           <div className="space-y-6">
             <div className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-full bg-gradient-saffron flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">Y</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">YUVANEXT</h3>
-                <p className="text-xs text-background/60 -mt-1">FOUNDATION</p>
-              </div>
+              <img src={logo} alt="YUVANEXT Foundation Logo" className="h-14 w-auto" />
             </div>
             <p className="text-background/70 text-sm leading-relaxed">
-              A Section-8 registered non-profit organization dedicated to youth empowerment, 
-              education, and sustainable community development across India.
+              {t("footer.description")}
             </p>
             <div className="flex gap-3">
               <a
@@ -99,7 +96,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
+            <h4 className="text-lg font-semibold mb-6">{t("footer.quickLinks")}</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -116,7 +113,7 @@ const Footer = () => {
 
           {/* Legal Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Legal</h4>
+            <h4 className="text-lg font-semibold mb-6">{t("footer.legal")}</h4>
             <ul className="space-y-3">
               {legalLinks.map((link) => (
                 <li key={link.href}>
@@ -131,7 +128,7 @@ const Footer = () => {
             </ul>
             <div className="mt-6 p-4 bg-background/5 rounded-lg">
               <p className="text-xs text-background/60">
-                Registered under Section 8 of the Companies Act, 2013
+                {t("footer.registeredUnder")}
               </p>
               <p className="text-xs text-background/60 mt-1">
                 CIN: U85XXX2024NPL000000
@@ -141,7 +138,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Contact Us</h4>
+            <h4 className="text-lg font-semibold mb-6">{t("footer.contactUs")}</h4>
             <ul className="space-y-4">
               <li className="flex gap-3">
                 <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -175,10 +172,10 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-background/60 text-sm text-center md:text-left">
-              © {new Date().getFullYear()} YUVANEXT Foundation. All rights reserved.
+              © {new Date().getFullYear()} {t("footer.copyright")}
             </p>
             <p className="text-background/60 text-sm flex items-center gap-1">
-              Made with <Heart className="w-4 h-4 text-primary fill-primary" /> for a better tomorrow
+              {t("footer.madeWith")} <Heart className="w-4 h-4 text-primary fill-primary" /> {t("footer.forBetterTomorrow")}
             </p>
           </div>
         </div>

@@ -5,52 +5,55 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Layout from "@/components/layout/Layout";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-
-const documents = [
-  {
-    title: "Certificate of Incorporation",
-    description: "Section-8 Company Registration Certificate",
-    type: "PDF",
-    size: "1.2 MB",
-  },
-  {
-    title: "Memorandum of Association (MOA)",
-    description: "Foundation's objectives and scope",
-    type: "PDF",
-    size: "2.5 MB",
-  },
-  {
-    title: "Articles of Association (AOA)",
-    description: "Rules governing the organization",
-    type: "PDF",
-    size: "1.8 MB",
-  },
-  {
-    title: "80G Certificate",
-    description: "Tax exemption certificate for donors",
-    type: "PDF",
-    size: "0.8 MB",
-  },
-  {
-    title: "12A Registration",
-    description: "Income tax exemption registration",
-    type: "PDF",
-    size: "0.6 MB",
-  },
-  {
-    title: "Annual Report 2023-24",
-    description: "Yearly activities and financial summary",
-    type: "PDF",
-    size: "5.2 MB",
-  },
-];
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Transparency = () => {
+  const { t } = useTranslation();
+
+  const documents = [
+    {
+      titleKey: "documentsData.incorporation.title",
+      descKey: "documentsData.incorporation.description",
+      type: "PDF",
+      size: "1.2 MB",
+    },
+    {
+      titleKey: "documentsData.moa.title",
+      descKey: "documentsData.moa.description",
+      type: "PDF",
+      size: "2.5 MB",
+    },
+    {
+      titleKey: "documentsData.aoa.title",
+      descKey: "documentsData.aoa.description",
+      type: "PDF",
+      size: "1.8 MB",
+    },
+    {
+      titleKey: "documentsData.80g.title",
+      descKey: "documentsData.80g.description",
+      type: "PDF",
+      size: "0.8 MB",
+    },
+    {
+      titleKey: "documentsData.12a.title",
+      descKey: "documentsData.12a.description",
+      type: "PDF",
+      size: "0.6 MB",
+    },
+    {
+      titleKey: "documentsData.annualReport.title",
+      descKey: "documentsData.annualReport.description",
+      type: "PDF",
+      size: "5.2 MB",
+    },
+  ];
+
   return (
     <Layout>
       <PageHero
-        title="Transparency"
-        subtitle="We believe in complete transparency and accountability in all our operations."
+        title={t("transparency.title")}
+        subtitle={t("transparency.subtitle")}
       />
 
       {/* Our Commitment */}
@@ -62,31 +65,26 @@ const Transparency = () => {
                 <Shield className="w-10 h-10 text-accent" />
               </div>
               <h2 className="text-3xl font-bold text-foreground mb-6">
-                Our Commitment to Transparency
+                {t("transparency.commitment")}
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                At YUVANEXT Foundation, we believe that transparency is the foundation 
-                of trust. We are committed to maintaining the highest standards of 
-                accountability in all our operations, finances, and programs.
-              </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
                   icon: Eye,
-                  title: "Open Books",
-                  description: "All financial records are available for review by stakeholders and donors.",
+                  title: t("transparency.accountability"),
+                  description: t("transparency.accountabilityDesc"),
                 },
                 {
                   icon: FileText,
-                  title: "Regular Reporting",
-                  description: "We publish quarterly updates and annual reports on our activities and impact.",
+                  title: t("transparency.auditedReports"),
+                  description: t("transparency.auditedReportsDesc"),
                 },
                 {
                   icon: Shield,
-                  title: "Audit Compliance",
-                  description: "Our accounts are audited annually by certified chartered accountants.",
+                  title: t("transparency.openDoor"),
+                  description: t("transparency.openDoorDesc"),
                 },
               ].map((item, index) => (
                 <div key={index} className="text-center p-6">
@@ -108,8 +106,8 @@ const Transparency = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <SectionHeading
-            title="Legal Documents & Certifications"
-            subtitle="Download and verify our official registrations and certifications."
+            title={t("transparency.documents")}
+            subtitle=""
           />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -124,15 +122,15 @@ const Transparency = () => {
                       {doc.type} • {doc.size}
                     </span>
                   </div>
-                  <CardTitle className="text-lg mt-4">{doc.title}</CardTitle>
+                  <CardTitle className="text-lg mt-4">{t(doc.titleKey)}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground mb-4">
-                    {doc.description}
+                    {t(doc.descKey)}
                   </p>
                   <Button variant="outline" size="sm" className="w-full" disabled>
                     <Download className="w-4 h-4 mr-2" />
-                    Download (Coming Soon)
+                    {t("transparency.download")} ({t("transparency.comingSoon")})
                   </Button>
                 </CardContent>
               </Card>
@@ -146,19 +144,19 @@ const Transparency = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-foreground text-center mb-12">
-              Fund Utilization
+              {t("transparency.fundUtilization")}
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="p-8 bg-muted/30 rounded-2xl">
                 <h3 className="text-xl font-semibold text-foreground mb-6">
-                  Where Your Money Goes
+                  {t("transparency.fundUtilization")}
                 </h3>
                 <div className="space-y-4">
                   {[
-                    { label: "Programs & Activities", percentage: 75 },
-                    { label: "Administration", percentage: 15 },
-                    { label: "Fundraising", percentage: 5 },
-                    { label: "Reserve Fund", percentage: 5 },
+                    { label: t("transparency.programs"), percentage: 75 },
+                    { label: t("transparency.administration"), percentage: 15 },
+                    { label: t("transparency.fundraising"), percentage: 5 },
+                    { label: t("transparency.emergency"), percentage: 5 },
                   ].map((item, index) => (
                     <div key={index}>
                       <div className="flex justify-between text-sm mb-1">
@@ -180,22 +178,11 @@ const Transparency = () => {
 
               <div className="p-8 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl">
                 <h3 className="text-xl font-semibold text-foreground mb-6">
-                  Our Promise
+                  {t("transparency.financialIntegrity")}
                 </h3>
-                <ul className="space-y-4">
-                  {[
-                    "At least 75% of funds directly support programs",
-                    "Regular financial audits by independent auditors",
-                    "Detailed expense reports available on request",
-                    "Zero tolerance for misuse of funds",
-                    "Donor-specific utilization reports",
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <Shield className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-muted-foreground">
+                  {t("transparency.financialIntegrity")}
+                </p>
               </div>
             </div>
           </div>
@@ -207,16 +194,14 @@ const Transparency = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-foreground mb-6">
-              Governance Structure
+              {t("transparency.governance")}
             </h2>
             <p className="text-lg text-muted-foreground mb-12">
-              YUVANEXT Foundation is governed by a Board of Directors comprising 
-              experienced professionals committed to our mission. The board meets 
-              quarterly to review operations and ensure compliance.
+              {t("transparency.governanceDesc")}
             </p>
             <Button asChild variant="outline" size="lg">
               <Link to="/about">
-                Learn About Our Team
+                {t("transparency.viewTeam")}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
@@ -229,15 +214,14 @@ const Transparency = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Need More Information?
+              {t("transparency.contactVerification")}
             </h2>
             <p className="text-xl text-background/70 mb-8">
-              We're happy to provide any additional documents or answer questions 
-              about our operations and finances.
+              {t("transparency.contactVerificationDesc")}
             </p>
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
               <Link to="/contact">
-                Contact Us
+                {t("transparency.verifyNow")}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>

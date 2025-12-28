@@ -5,16 +5,44 @@ import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/layout/Layout";
 import PageHero from "@/components/ui/PageHero";
 import { activities } from "@/data/siteData";
+import { useTranslation } from "@/hooks/useTranslation";
+
+const activityKeys = [
+  "treePlantation",
+  "healthCamp",
+  "digitalLiteracy",
+  "womenSHG",
+  "bloodDonation",
+  "careerCounseling",
+];
+
+const categoryKeys: Record<string, string> = {
+  "Environment": "categoriesData.environment",
+  "Health": "categoriesData.health",
+  "Education": "categoriesData.education",
+  "Women Empowerment": "categoriesData.womenEmpowerment",
+};
 
 const Activities = () => {
+  const { t, language } = useTranslation();
+
   // Get unique categories
   const categories = [...new Set(activities.map((a) => a.category))];
+
+  const getLocalizedDate = (dateString: string) => {
+    const locale = language === "mr" ? "mr-IN" : "en-IN";
+    return new Date(dateString).toLocaleDateString(locale, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   return (
     <Layout>
       <PageHero
-        title="Activities & Updates"
-        subtitle="Stay informed about our latest initiatives, events, and impact stories."
+        title={t("activities.title")}
+        subtitle={t("activities.subtitle")}
       />
 
       {/* Filter Section */}
@@ -22,11 +50,11 @@ const Activities = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap gap-3 justify-center">
             <Button variant="default" size="sm">
-              All
+              {t("activities.all")}
             </Button>
             {categories.map((category) => (
               <Button key={category} variant="outline" size="sm">
-                {category}
+                {t(categoryKeys[category] || category)}
               </Button>
             ))}
           </div>
@@ -46,36 +74,32 @@ const Activities = () => {
                 <div className="aspect-video bg-muted relative overflow-hidden">
                   <img
                     src={activity.image}
-                    alt={activity.title}
+                    alt={t(`activitiesData.${activityKeys[index]}.title`)}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute top-4 left-4">
                     <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full">
                       <Tag className="w-3 h-3" />
-                      {activity.category}
+                      {t(categoryKeys[activity.category] || activity.category)}
                     </span>
                   </div>
                 </div>
                 <CardContent className="p-6">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                     <Calendar className="w-4 h-4" />
-                    {new Date(activity.date).toLocaleDateString("en-IN", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    {getLocalizedDate(activity.date)}
                   </div>
                   <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                    {activity.title}
+                    {t(`activitiesData.${activityKeys[index]}.title`)}
                   </h3>
                   <p className="text-muted-foreground mb-4 line-clamp-3">
-                    {activity.excerpt}
+                    {t(`activitiesData.${activityKeys[index]}.excerpt`)}
                   </p>
                   <Link
                     to={`/activities/${activity.id}`}
                     className="inline-flex items-center text-primary font-medium hover:gap-2 transition-all"
                   >
-                    Read More
+                    {t("activities.readMore")}
                     <ArrowRight className="ml-1 w-4 h-4" />
                   </Link>
                 </CardContent>
@@ -86,7 +110,7 @@ const Activities = () => {
           {/* Load More */}
           <div className="text-center mt-12">
             <Button variant="outline" size="lg">
-              Load More Activities
+              {t("activities.loadMore")}
             </Button>
           </div>
         </div>
@@ -97,18 +121,18 @@ const Activities = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              Stay Updated
+              {t("cta.stayUpdated")}
             </h2>
             <p className="text-muted-foreground mb-8">
-              Subscribe to our newsletter to receive the latest updates on our activities and impact.
+              {t("cta.stayUpdatedDesc")}
             </p>
             <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t("cta.enterEmail")}
                 className="flex-1 px-4 py-3 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
               />
-              <Button type="submit">Subscribe</Button>
+              <Button type="submit">{t("cta.subscribe")}</Button>
             </form>
           </div>
         </div>

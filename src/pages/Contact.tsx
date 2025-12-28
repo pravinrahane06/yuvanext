@@ -9,8 +9,10 @@ import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/layout/Layout";
 import PageHero from "@/components/ui/PageHero";
 import { contactInfo } from "@/data/siteData";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Contact = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -18,12 +20,11 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission (will be replaced with PHP API call)
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. We'll respond within 24-48 hours.",
+      title: t("common.success"),
+      description: t("contact.sendMessage"),
     });
 
     setIsSubmitting(false);
@@ -33,8 +34,8 @@ const Contact = () => {
   return (
     <Layout>
       <PageHero
-        title="Contact Us"
-        subtitle="Have questions or want to get involved? We'd love to hear from you."
+        title={t("contact.title")}
+        subtitle={t("contact.subtitle")}
       />
 
       <section className="py-20 bg-background">
@@ -43,7 +44,7 @@ const Contact = () => {
             {/* Contact Information */}
             <div className="lg:col-span-1">
               <h2 className="text-2xl font-bold text-foreground mb-8">
-                Get in Touch
+                {t("contact.getInTouch")}
               </h2>
 
               <div className="space-y-6">
@@ -53,7 +54,7 @@ const Contact = () => {
                       <MapPin className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Address</h3>
+                      <h3 className="font-semibold text-foreground mb-1">{t("contact.address")}</h3>
                       <p className="text-muted-foreground text-sm">
                         {contactInfo.address}
                       </p>
@@ -67,7 +68,7 @@ const Contact = () => {
                       <Mail className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Email</h3>
+                      <h3 className="font-semibold text-foreground mb-1">{t("contact.email")}</h3>
                       <a
                         href={`mailto:${contactInfo.email}`}
                         className="text-muted-foreground text-sm hover:text-primary transition-colors"
@@ -84,7 +85,7 @@ const Contact = () => {
                       <Phone className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Phone</h3>
+                      <h3 className="font-semibold text-foreground mb-1">{t("contact.phone")}</h3>
                       <a
                         href={`tel:${contactInfo.phone}`}
                         className="text-muted-foreground text-sm hover:text-primary transition-colors block"
@@ -108,7 +109,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">
-                        Working Hours
+                        {t("contact.workingHours")}
                       </h3>
                       <p className="text-muted-foreground text-sm">
                         {contactInfo.workingHours}
@@ -124,25 +125,25 @@ const Contact = () => {
               <Card>
                 <CardContent className="p-8">
                   <h2 className="text-2xl font-bold text-foreground mb-6">
-                    Send us a Message
+                    {t("contact.sendMessage")}
                   </h2>
 
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="name">Full Name *</Label>
+                        <Label htmlFor="name">{t("contact.fullName")} *</Label>
                         <Input
                           id="name"
-                          placeholder="Enter your name"
+                          placeholder={t("contact.fullName")}
                           required
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email Address *</Label>
+                        <Label htmlFor="email">{t("contact.emailAddress")} *</Label>
                         <Input
                           id="email"
                           type="email"
-                          placeholder="Enter your email"
+                          placeholder={t("contact.emailAddress")}
                           required
                         />
                       </div>
@@ -150,28 +151,28 @@ const Contact = () => {
 
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Phone Number</Label>
+                        <Label htmlFor="phone">{t("contact.phoneNumber")}</Label>
                         <Input
                           id="phone"
                           type="tel"
-                          placeholder="Enter your phone"
+                          placeholder={t("contact.phoneNumber")}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="subject">Subject *</Label>
+                        <Label htmlFor="subject">{t("contact.subject")} *</Label>
                         <Input
                           id="subject"
-                          placeholder="How can we help?"
+                          placeholder={t("contact.subject")}
                           required
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="message">Message *</Label>
+                      <Label htmlFor="message">{t("contact.message")} *</Label>
                       <Textarea
                         id="message"
-                        placeholder="Write your message here..."
+                        placeholder={t("contact.message")}
                         rows={6}
                         required
                       />
@@ -179,10 +180,10 @@ const Contact = () => {
 
                     <Button type="submit" size="lg" disabled={isSubmitting}>
                       {isSubmitting ? (
-                        "Sending..."
+                        t("contact.sending")
                       ) : (
                         <>
-                          Send Message
+                          {t("contact.send")}
                           <Send className="ml-2 w-4 h-4" />
                         </>
                       )}
@@ -200,10 +201,10 @@ const Contact = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              Find Us
+              {t("contact.findUs")}
             </h2>
             <p className="text-muted-foreground">
-              Visit our office or reach out to us through any of the channels above.
+              {t("contact.mapPlaceholder")}
             </p>
           </div>
 
@@ -213,7 +214,7 @@ const Contact = () => {
               <div className="text-center">
                 <MapPin className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                 <p className="text-muted-foreground">
-                  Google Maps integration will be added here
+                  {t("contact.mapPlaceholder")}
                 </p>
               </div>
             </div>
