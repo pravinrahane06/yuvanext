@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,13 +63,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-12 h-12 rounded-full bg-gradient-saffron flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-xl">Y</span>
-            </div>
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-bold text-foreground">YUVANEXT</h1>
-              <p className="text-xs text-muted-foreground -mt-1">FOUNDATION</p>
-            </div>
+            <img src={logo} alt="YUVANEXT Foundation Logo" className="h-14 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}

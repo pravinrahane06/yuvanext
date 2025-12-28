@@ -61,7 +61,7 @@ const Index = () => {
             </p>
 
             <div
-              className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in"
+              className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap animate-fade-in"
               style={{ animationDelay: "0.6s" }}
             >
               <Button asChild size="lg" className="text-lg px-8">
@@ -72,6 +72,9 @@ const Index = () => {
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8">
                 <Link to="/about">{t("hero.learnMore")}</Link>
+              </Button>
+              <Button variant="secondary" size="lg" className="text-lg px-8 cursor-not-allowed opacity-80" disabled>
+                {t("hero.donateComingSoon")}
               </Button>
             </div>
 
