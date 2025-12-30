@@ -475,4 +475,86 @@ export const en = {
       description: "Our initiatives are designed for long-term sustainability, creating self-reliant communities.",
     },
   },
+
+  // Mission Points
+  missionPoints: [
+    "Promote holistic youth development through education, skills, and character building",
+    "Address social inequalities and work towards inclusive growth",
+    "Foster environmental consciousness and sustainable practices",
+    "Empower women and marginalized communities through targeted programs",
+    "Build strong community networks for collective social action",
+    "Advocate for policy changes that benefit underserved populations",
+  ],
+
+  // Volunteer Features
+  volunteerFeatures: [
+    "Flexible scheduling options",
+    "Training and skill development",
+    "Certificate of appreciation",
+    "Networking opportunities",
+    "Direct community impact",
+    "Regular feedback and support",
+  ],
+
+  // Partnership Features
+  partnershipFeatures: [
+    "Joint program design and implementation",
+    "Shared resources and expertise",
+    "Co-branded initiatives",
+    "Impact measurement and reporting",
+    "Networking events and workshops",
+    "Long-term strategic collaboration",
+  ],
+
+  // CSR Features
+  csrFeatures: [
+    "Customized CSR program design",
+    "Complete project management",
+    "Regular impact reports",
+    "Employee engagement opportunities",
+    "Tax benefits under Section 80G",
+    "Brand visibility and recognition",
+  ],
+
+  // Skills Data
+  skillsData: [
+    "Teaching & Tutoring",
+    "Healthcare & First Aid",
+    "Content Writing",
+    "Social Media Management",
+    "Event Management",
+    "Photography & Videography",
+    "Fundraising",
+    "Counseling",
+    "Technical Skills (IT)",
+    "Legal Advisory",
+  ],
+
+  // Documents Data
+  documentsData: {
+    registration: {
+      title: "Certificate of Incorporation",
+      description: "Section-8 Company Registration Certificate",
+    },
+    pan: {
+      title: "PAN Card",
+      description: "Permanent Account Number Certificate",
+    },
+    taxExemption: {
+      title: "80G Certificate",
+      description: "Tax Exemption Certificate under Section 80G",
+    },
+    twelveA: {
+      title: "12A Registration",
+      description: "Income Tax Registration Certificate",
+    },
+    csr: {
+      title: "CSR-1 Registration",
+      description: "Corporate Social Responsibility Registration",
+    },
+    annualReport: {
+      title: "Annual Report 2023-24",
+      description: "Comprehensive Annual Report and Financials",
+    },
+  },
 };
