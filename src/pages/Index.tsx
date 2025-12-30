@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/layout/Layout";
 import SectionHeading from "@/components/ui/SectionHeading";
 import DynamicIcon from "@/components/ui/DynamicIcon";
+import LeadershipSection from "@/components/sections/LeadershipSection";
 import { focusAreas, activities, coreValues } from "@/data/siteData";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -286,6 +287,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Leadership Section - Compact Version */}
+      <LeadershipSection variant="compact" />
 
       {/* Get Involved CTA */}
       <section className="py-20 bg-foreground text-background">
