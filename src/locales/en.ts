@@ -487,70 +487,62 @@ export const en = {
   ],
 
   // Volunteer Features
-  volunteerFeatures: [
-    "Flexible scheduling options",
-    "Training and skill development",
-    "Certificate of appreciation",
-    "Networking opportunities",
-    "Direct community impact",
-    "Regular feedback and support",
-  ],
+  volunteerFeatures: {
+    flexible: "Flexible scheduling options",
+    skillBased: "Skill-based volunteering",
+    field: "Field work opportunities",
+    training: "Training and mentorship",
+  },
 
   // Partnership Features
-  partnershipFeatures: [
-    "Joint program design and implementation",
-    "Shared resources and expertise",
-    "Co-branded initiatives",
-    "Impact measurement and reporting",
-    "Networking events and workshops",
-    "Long-term strategic collaboration",
-  ],
+  partnershipFeatures: {
+    ngo: "NGO Collaborations",
+    government: "Government Partnerships",
+    academic: "Academic Institutions",
+    resource: "Resource Sharing",
+  },
 
   // CSR Features
-  csrFeatures: [
-    "Customized CSR program design",
-    "Complete project management",
-    "Regular impact reports",
-    "Employee engagement opportunities",
-    "Tax benefits under Section 80G",
-    "Brand visibility and recognition",
-  ],
+  csrFeatures: {
+    projectFunding: "Project Funding",
+    employee: "Employee Volunteering",
+    impact: "Impact Reporting",
+    tax: "Tax Benefits (80G)",
+  },
 
   // Skills Data
-  skillsData: [
-    "Teaching & Tutoring",
-    "Healthcare & First Aid",
-    "Content Writing",
-    "Social Media Management",
-    "Event Management",
-    "Photography & Videography",
-    "Fundraising",
-    "Counseling",
-    "Technical Skills (IT)",
-    "Legal Advisory",
-  ],
+  skillsData: {
+    teaching: "Teaching & Tutoring",
+    healthcare: "Healthcare & First Aid",
+    it: "IT & Technical Skills",
+    marketing: "Marketing & Communications",
+    eventManagement: "Event Management",
+    photography: "Photography & Videography",
+    counseling: "Counseling & Mentoring",
+    administration: "Administration",
+  },
 
   // Documents Data
   documentsData: {
-    registration: {
+    incorporation: {
       title: "Certificate of Incorporation",
       description: "Section-8 Company Registration Certificate",
     },
-    pan: {
-      title: "PAN Card",
-      description: "Permanent Account Number Certificate",
+    moa: {
+      title: "Memorandum of Association",
+      description: "MOA defining objectives and scope",
     },
-    taxExemption: {
+    aoa: {
+      title: "Articles of Association",
+      description: "AOA governing internal management",
+    },
+    "80g": {
       title: "80G Certificate",
       description: "Tax Exemption Certificate under Section 80G",
     },
-    twelveA: {
+    "12a": {
       title: "12A Registration",
       description: "Income Tax Registration Certificate",
-    },
-    csr: {
-      title: "CSR-1 Registration",
-      description: "Corporate Social Responsibility Registration",
     },
     annualReport: {
       title: "Annual Report 2023-24",
