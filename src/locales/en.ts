@@ -549,4 +549,34 @@ export const en = {
       description: "Comprehensive Annual Report and Financials",
     },
   },
+
+  // Leadership Section
+  leadership: {
+    title: "Our Leadership & Governing Body",
+    subtitle: "Guiding YUVANEXT FOUNDATION with integrity, vision, and service.",
+    cta: "Get Involved",
+    viewAll: "View All Leaders",
+    members: {
+      rahul: {
+        name: "Rahul Deshmukh",
+        designation: "Founder & Managing Director",
+        description: "Visionary leader dedicated to youth empowerment and community development across India.",
+      },
+      anjali: {
+        name: "Anjali Kulkarni",
+        designation: "Director, Women & Community Development",
+        description: "Championing women's rights and grassroots community initiatives for sustainable change.",
+      },
+      sanjay: {
+        name: "Dr. Sanjay Patil",
+        designation: "Advisor, Education & Mental Wellness",
+        description: "Expert in educational reforms and mental health advocacy for underserved communities.",
+      },
+      amit: {
+        name: "Amit Joshi",
+        designation: "Director, Technology & Innovation",
+        description: "Driving digital transformation and innovative solutions for social impact.",
+      },
+    },
+  },
 };

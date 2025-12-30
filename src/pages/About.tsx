@@ -6,6 +6,7 @@ import Layout from "@/components/layout/Layout";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import DynamicIcon from "@/components/ui/DynamicIcon";
+import LeadershipSection from "@/components/sections/LeadershipSection";
 import { coreValues } from "@/data/siteData";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -159,6 +160,9 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* Leadership Section - Full Version */}
+      <LeadershipSection variant="full" />
 
       {/* CTA */}
       <section className="py-20 bg-gradient-to-br from-primary/10 to-accent/10">
