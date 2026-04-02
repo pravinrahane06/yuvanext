@@ -22,12 +22,6 @@ const UserDashboard = () => {
 
   const handleLogout = () => { logout(); navigate("/"); };
 
-  // Redirect volunteer to volunteer dashboard
-  if (user.role === "volunteer") {
-    navigate("/volunteer-dashboard");
-    return null;
-  }
-
   return (
     <Layout>
       <div className="max-w-5xl mx-auto py-10 px-4 space-y-8">

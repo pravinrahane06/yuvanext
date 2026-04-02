@@ -21,10 +21,6 @@ const VolunteerDashboard = () => {
     initialDonations.filter((d) => d.collectedBy !== "Direct").slice(0, 3)
   );
 
-  useEffect(() => {
-    if (!isAuthenticated) navigate("/login");
-  }, [isAuthenticated, navigate]);
-
   if (!user) return null;
 
   const totalCollected = collected.reduce((s, d) => s + d.amount, 0);
