@@ -42,7 +42,7 @@ const VolunteerDashboard = () => {
     toast({ title: "Entry Added", description: `₹${Number(amount).toLocaleString("en-IN")} from ${donorName} recorded.` });
   };
 
-  const handleLogout = () => { logout(); navigate("/"); };
+  const handleLogout = async () => { await logout(); navigate("/"); };
 
   return (
     <Layout>

@@ -19,7 +19,7 @@ const UserDashboard = () => {
   const totalDonated = userDonations.reduce((s, d) => s + d.amount, 0);
   const lastDonation = userDonations[userDonations.length - 1];
 
-  const handleLogout = () => { logout(); navigate("/"); };
+  const handleLogout = async () => { await logout(); navigate("/"); };
 
   return (
     <Layout>
