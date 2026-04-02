@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { initialDonations } from "@/data/mockData";
 import { DollarSign, Calendar, TrendingUp, LogOut, User } from "lucide-react";
-import { useEffect } from "react";
 
 const UserDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
