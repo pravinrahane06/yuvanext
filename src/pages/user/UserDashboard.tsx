@@ -12,16 +12,10 @@ const UserDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isAuthenticated) navigate("/login");
-  }, [isAuthenticated, navigate]);
-
   if (!user) return null;
 
-  // Mock user's donations
-  const userDonations = initialDonations.filter((d) => d.userId === user.id).length > 0
-    ? initialDonations.filter((d) => d.userId === user.id)
-    : initialDonations.slice(0, 3); // fallback for demo
+  // Mock user's donations (demo data)
+  const userDonations = initialDonations.slice(0, 3);
 
   const totalDonated = userDonations.reduce((s, d) => s + d.amount, 0);
   const lastDonation = userDonations[userDonations.length - 1];
