@@ -6,33 +6,20 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { initialDonations } from "@/data/mockData";
 import { DollarSign, Calendar, TrendingUp, LogOut, User } from "lucide-react";
-import { useEffect } from "react";
 
 const UserDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isAuthenticated) navigate("/login");
-  }, [isAuthenticated, navigate]);
-
   if (!user) return null;
 
-  // Mock user's donations
-  const userDonations = initialDonations.filter((d) => d.userId === user.id).length > 0
-    ? initialDonations.filter((d) => d.userId === user.id)
-    : initialDonations.slice(0, 3); // fallback for demo
+  // Mock user's donations (demo data)
+  const userDonations = initialDonations.slice(0, 3);
 
   const totalDonated = userDonations.reduce((s, d) => s + d.amount, 0);
   const lastDonation = userDonations[userDonations.length - 1];
 
-  const handleLogout = () => { logout(); navigate("/"); };
-
-  // Redirect volunteer to volunteer dashboard
-  if (user.role === "volunteer") {
-    navigate("/volunteer-dashboard");
-    return null;
-  }
+  const handleLogout = async () => { await logout(); navigate("/"); };
 
   return (
     <Layout>

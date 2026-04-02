@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import VisionMission from "./pages/VisionMission";
@@ -30,6 +31,8 @@ import ManageDonations from "./pages/admin/ManageDonations";
 // Auth pages
 import JoinUs from "./pages/auth/JoinUs";
 import Login from "./pages/auth/Login";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 // Dashboards
 import UserDashboard from "./pages/user/UserDashboard";
@@ -59,22 +62,26 @@ const App = () => (
               <Route path="/transparency" element={<Transparency />} />
               <Route path="/contact" element={<Contact />} />
 
-              {/* Admin */}
-              <Route path="/admin-login" element={<AdminLogin />} />
-              <Route path="/admin-dashboard" element={<AdminDashboard />} />
-              <Route path="/admin-create-activity" element={<CreateActivity />} />
-              <Route path="/admin-manage-activities" element={<ManageActivities />} />
-              <Route path="/admin-users" element={<ManageUsers />} />
-              <Route path="/admin-volunteers" element={<ManageVolunteers />} />
-              <Route path="/admin-donations" element={<ManageDonations />} />
-
               {/* Auth */}
               <Route path="/join-us" element={<JoinUs />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/admin-login" element={<AdminLogin />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
 
-              {/* Dashboards */}
-              <Route path="/dashboard" element={<UserDashboard />} />
-              <Route path="/volunteer-dashboard" element={<VolunteerDashboard />} />
+              {/* Protected: Admin */}
+              <Route path="/admin-dashboard" element={<ProtectedRoute allowedRoles={["admin"]}><AdminDashboard /></ProtectedRoute>} />
+              <Route path="/admin-create-activity" element={<ProtectedRoute allowedRoles={["admin"]}><CreateActivity /></ProtectedRoute>} />
+              <Route path="/admin-manage-activities" element={<ProtectedRoute allowedRoles={["admin"]}><ManageActivities /></ProtectedRoute>} />
+              <Route path="/admin-users" element={<ProtectedRoute allowedRoles={["admin"]}><ManageUsers /></ProtectedRoute>} />
+              <Route path="/admin-volunteers" element={<ProtectedRoute allowedRoles={["admin"]}><ManageVolunteers /></ProtectedRoute>} />
+              <Route path="/admin-donations" element={<ProtectedRoute allowedRoles={["admin"]}><ManageDonations /></ProtectedRoute>} />
+
+              {/* Protected: Donor */}
+              <Route path="/dashboard" element={<ProtectedRoute allowedRoles={["donor", "admin"]}><UserDashboard /></ProtectedRoute>} />
+
+              {/* Protected: Volunteer */}
+              <Route path="/volunteer-dashboard" element={<ProtectedRoute allowedRoles={["volunteer", "admin"]}><VolunteerDashboard /></ProtectedRoute>} />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

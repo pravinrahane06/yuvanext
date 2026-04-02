@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Layout from "@/components/layout/Layout";
@@ -21,10 +21,6 @@ const VolunteerDashboard = () => {
     initialDonations.filter((d) => d.collectedBy !== "Direct").slice(0, 3)
   );
 
-  useEffect(() => {
-    if (!isAuthenticated) navigate("/login");
-  }, [isAuthenticated, navigate]);
-
   if (!user) return null;
 
   const totalCollected = collected.reduce((s, d) => s + d.amount, 0);
@@ -46,7 +42,7 @@ const VolunteerDashboard = () => {
     toast({ title: "Entry Added", description: `₹${Number(amount).toLocaleString("en-IN")} from ${donorName} recorded.` });
   };
 
-  const handleLogout = () => { logout(); navigate("/"); };
+  const handleLogout = async () => { await logout(); navigate("/"); };
 
   return (
     <Layout>

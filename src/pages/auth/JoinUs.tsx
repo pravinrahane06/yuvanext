@@ -7,18 +7,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const JoinUs = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (register(name, email, phone, password)) {
+    setLoading(true);
+    const { error } = await register(name, email, phone, password);
+    setLoading(false);
+    if (error) {
+      toast({ title: "Registration Failed", description: error, variant: "destructive" });
+    } else {
+      toast({ title: "Welcome to YUVANEXT!", description: "Your account has been created." });
       navigate("/dashboard");
     }
   };
@@ -50,9 +58,11 @@ const JoinUs = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Create a password" required />
+                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Create a password (min 6 chars)" required minLength={6} />
               </div>
-              <Button type="submit" className="w-full">Register</Button>
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Creating account..." : "Register"}
+              </Button>
               <p className="text-center text-sm text-muted-foreground">
                 Already have an account?{" "}
                 <Link to="/login" className="text-primary hover:underline">Login</Link>

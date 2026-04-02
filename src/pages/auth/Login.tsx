@@ -7,18 +7,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { userLogin } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { login, isAuthenticated, role } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // If already authenticated, redirect
+  if (isAuthenticated && role) {
+    if (role === "admin") navigate("/admin-dashboard", { replace: true });
+    else if (role === "volunteer") navigate("/volunteer-dashboard", { replace: true });
+    else navigate("/dashboard", { replace: true });
+    return null;
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (userLogin(email, password)) {
-      navigate("/dashboard");
+    setLoading(true);
+    const { error } = await login(email, password);
+    setLoading(false);
+    if (error) {
+      toast({ title: "Login Failed", description: error, variant: "destructive" });
     }
+    // Redirect happens via auth state change
   };
 
   return (
@@ -42,11 +56,13 @@ const Login = () => {
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" required />
               </div>
-              <Button type="submit" className="w-full">Login</Button>
-              <p className="text-center text-sm text-muted-foreground">
-                Don't have an account?{" "}
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Signing in..." : "Login"}
+              </Button>
+              <div className="flex justify-between text-sm">
+                <Link to="/forgot-password" className="text-primary hover:underline">Forgot password?</Link>
                 <Link to="/join-us" className="text-primary hover:underline">Register</Link>
-              </p>
+              </div>
             </form>
           </CardContent>
         </Card>
