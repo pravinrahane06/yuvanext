@@ -10,20 +10,25 @@ import {
   LogOut,
   Menu,
   X,
+  Target,
+  BarChart3,
+  Mail,
+  Receipt,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-import { Target } from "lucide-react";
-
 const navItems = [
   { label: "Dashboard", path: "/admin-dashboard", icon: LayoutDashboard },
   { label: "Activities", path: "/admin-manage-activities", icon: FileText },
   { label: "Campaigns", path: "/admin-campaigns", icon: Target },
+  { label: "Donations", path: "/admin-donations", icon: DollarSign },
   { label: "Users", path: "/admin-users", icon: Users },
   { label: "Volunteers", path: "/admin-volunteers", icon: Heart },
-  { label: "Donations", path: "/admin-donations", icon: DollarSign },
+  { label: "Reports", path: "/admin-reports", icon: BarChart3 },
+  { label: "Email Tool", path: "/admin-email", icon: Mail },
+  { label: "Receipts", path: "/admin-receipts", icon: Receipt },
 ];
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {
@@ -39,7 +44,6 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="min-h-screen flex bg-muted/30">
-      {/* Mobile overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-foreground/30 z-40 lg:hidden"
@@ -47,7 +51,6 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={cn(
           "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r border-border flex flex-col transition-transform duration-300",
@@ -66,7 +69,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
           </Link>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
             const active = location.pathname === item.path;
             return (
@@ -99,7 +102,6 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         </div>
       </aside>
 
-      {/* Main content */}
       <div className="flex-1 flex flex-col min-h-screen">
         <header className="h-14 border-b border-border bg-card flex items-center px-4 lg:px-6 sticky top-0 z-30">
           <Button
