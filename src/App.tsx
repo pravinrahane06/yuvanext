@@ -27,6 +27,13 @@ import ManageActivities from "./pages/admin/ManageActivities";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ManageVolunteers from "./pages/admin/ManageVolunteers";
 import ManageDonations from "./pages/admin/ManageDonations";
+import ManageCampaigns from "./pages/admin/ManageCampaigns";
+
+// Public campaign & donation pages
+import Campaigns from "./pages/Campaigns";
+import CampaignDetail from "./pages/CampaignDetail";
+import DonatePage from "./pages/DonatePage";
+import DonationSuccess from "./pages/DonationSuccess";
 
 // Auth pages
 import JoinUs from "./pages/auth/JoinUs";
