@@ -28,6 +28,9 @@ import ManageUsers from "./pages/admin/ManageUsers";
 import ManageVolunteers from "./pages/admin/ManageVolunteers";
 import ManageDonations from "./pages/admin/ManageDonations";
 import ManageCampaigns from "./pages/admin/ManageCampaigns";
+import AdminReports from "./pages/admin/AdminReports";
+import AdminEmail from "./pages/admin/AdminEmail";
+import AdminReceipts from "./pages/admin/AdminReceipts";
 
 // Public campaign & donation pages
 import Campaigns from "./pages/Campaigns";
