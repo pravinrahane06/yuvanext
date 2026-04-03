@@ -28,6 +28,9 @@ import ManageUsers from "./pages/admin/ManageUsers";
 import ManageVolunteers from "./pages/admin/ManageVolunteers";
 import ManageDonations from "./pages/admin/ManageDonations";
 import ManageCampaigns from "./pages/admin/ManageCampaigns";
+import AdminReports from "./pages/admin/AdminReports";
+import AdminEmail from "./pages/admin/AdminEmail";
+import AdminReceipts from "./pages/admin/AdminReceipts";
 
 // Public campaign & donation pages
 import Campaigns from "./pages/Campaigns";
@@ -88,6 +91,9 @@ const App = () => (
               <Route path="/admin-volunteers" element={<ProtectedRoute allowedRoles={["admin"]}><ManageVolunteers /></ProtectedRoute>} />
               <Route path="/admin-donations" element={<ProtectedRoute allowedRoles={["admin"]}><ManageDonations /></ProtectedRoute>} />
               <Route path="/admin-campaigns" element={<ProtectedRoute allowedRoles={["admin"]}><ManageCampaigns /></ProtectedRoute>} />
+              <Route path="/admin-reports" element={<ProtectedRoute allowedRoles={["admin"]}><AdminReports /></ProtectedRoute>} />
+              <Route path="/admin-email" element={<ProtectedRoute allowedRoles={["admin"]}><AdminEmail /></ProtectedRoute>} />
+              <Route path="/admin-receipts" element={<ProtectedRoute allowedRoles={["admin"]}><AdminReceipts /></ProtectedRoute>} />
 
               {/* Protected: Donor */}
               <Route path="/dashboard" element={<ProtectedRoute allowedRoles={["donor", "admin"]}><UserDashboard /></ProtectedRoute>} />

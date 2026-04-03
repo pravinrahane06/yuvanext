@@ -1,33 +1,74 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { initialUsers, initialVolunteerRecords, User, VolunteerRecord } from "@/data/mockData";
-import { toast } from "@/hooks/use-toast";
-import { UserPlus } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface VolunteerRow {
+  user_id: string;
+  name: string;
+  phone: string | null;
+  donations_collected: number;
+  donation_count: number;
+}
 
 const ManageVolunteers = () => {
-  const [users, setUsers] = useState<User[]>(initialUsers);
-  const [records] = useState<VolunteerRecord[]>(initialVolunteerRecords);
+  const [volunteers, setVolunteers] = useState<VolunteerRow[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const volunteers = users.filter((u) => u.role === "volunteer");
-  const donors = users.filter((u) => u.role === "donor");
+  useEffect(() => {
+    const fetch = async () => {
+      // Get volunteer user_ids
+      const { data: roles } = await supabase.from("user_roles").select("user_id").eq("role", "volunteer");
+      if (!roles?.length) { setLoading(false); return; }
 
-  const convertToVolunteer = (userId: string) => {
-    setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, role: "volunteer" as const } : u)));
-    toast({ title: "Role Updated", description: "User has been converted to Volunteer." });
-  };
+      const vIds = roles.map((r: any) => r.user_id);
 
-  const getRecord = (userId: string) => records.find((r) => r.userId === userId);
+      const { data: profiles } = await supabase.from("profiles").select("user_id, name, phone").in("user_id", vIds);
+      
+      // Get donations made by volunteers (donations they collected — their own user_id)
+      const { data: donations } = await supabase
+        .from("donations")
+        .select("user_id, amount")
+        .in("user_id", vIds)
+        .eq("payment_status", "completed");
+
+      const donMap: Record<string, { total: number; count: number }> = {};
+      (donations || []).forEach((d: any) => {
+        if (!donMap[d.user_id]) donMap[d.user_id] = { total: 0, count: 0 };
+        donMap[d.user_id].total += Number(d.amount);
+        donMap[d.user_id].count += 1;
+      });
+
+      const combined = (profiles || []).map((p: any) => ({
+        user_id: p.user_id,
+        name: p.name || "—",
+        phone: p.phone,
+        donations_collected: donMap[p.user_id]?.total || 0,
+        donation_count: donMap[p.user_id]?.count || 0,
+      }));
+
+      setVolunteers(combined);
+      setLoading(false);
+    };
+    fetch();
+  }, []);
+
+  const totalCollected = volunteers.reduce((s, v) => s + v.donations_collected, 0);
 
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold text-foreground">Volunteers</h2>
-          <p className="text-muted-foreground text-sm">{volunteers.length} active volunteers</p>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Volunteer Tracking</h2>
+            <p className="text-muted-foreground text-sm">{volunteers.length} volunteers</p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-muted-foreground">Total Collected</p>
+            <p className="text-2xl font-bold text-primary">₹{totalCollected.toLocaleString("en-IN")}</p>
+          </div>
         </div>
 
         <Card className="shadow-sm">
@@ -36,68 +77,32 @@ const ManageVolunteers = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
-                  <TableHead className="hidden md:table-cell">Email</TableHead>
+                  <TableHead className="hidden sm:table-cell">Phone</TableHead>
                   <TableHead>Collected</TableHead>
-                  <TableHead className="hidden sm:table-cell">Campaigns</TableHead>
+                  <TableHead className="hidden md:table-cell"># Donations</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {volunteers.map((v) => {
-                  const rec = getRecord(v.id);
-                  return (
-                    <TableRow key={v.id}>
-                      <TableCell className="font-medium text-foreground">{v.name}</TableCell>
-                      <TableCell className="hidden md:table-cell text-muted-foreground text-sm">{v.email}</TableCell>
-                      <TableCell className="font-semibold text-primary">₹{(rec?.donationsCollected ?? 0).toLocaleString("en-IN")}</TableCell>
-                      <TableCell className="hidden sm:table-cell">{rec?.campaignsActive ?? 0}</TableCell>
-                      <TableCell>
-                        <Badge variant={rec?.status === "active" ? "default" : "secondary"} className="capitalize">
-                          {rec?.status ?? "active"}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                {loading ? (
+                  <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Loading...</TableCell></TableRow>
+                ) : volunteers.length === 0 ? (
+                  <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No volunteers found</TableCell></TableRow>
+                ) : volunteers.map((v) => (
+                  <TableRow key={v.user_id}>
+                    <TableCell className="font-medium text-foreground">{v.name}</TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm text-muted-foreground">{v.phone || "—"}</TableCell>
+                    <TableCell className="font-semibold text-primary">₹{v.donations_collected.toLocaleString("en-IN")}</TableCell>
+                    <TableCell className="hidden md:table-cell">{v.donation_count}</TableCell>
+                    <TableCell>
+                      <Badge variant="default" className="capitalize">Active</Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </CardContent>
         </Card>
-
-        {donors.length > 0 && (
-          <>
-            <div>
-              <h3 className="text-lg font-semibold text-foreground">Convert Donors to Volunteers</h3>
-              <p className="text-muted-foreground text-sm">Assign volunteer role to existing donors</p>
-            </div>
-            <Card className="shadow-sm">
-              <CardContent className="p-0">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead className="text-right">Action</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {donors.map((d) => (
-                      <TableRow key={d.id}>
-                        <TableCell className="font-medium text-foreground">{d.name}</TableCell>
-                        <TableCell className="text-muted-foreground text-sm">{d.email}</TableCell>
-                        <TableCell className="text-right">
-                          <Button size="sm" variant="outline" className="gap-1" onClick={() => convertToVolunteer(d.id)}>
-                            <UserPlus className="h-3.5 w-3.5" /> Make Volunteer
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </>
-        )}
       </div>
     </AdminLayout>
   );
