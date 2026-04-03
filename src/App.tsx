@@ -27,6 +27,13 @@ import ManageActivities from "./pages/admin/ManageActivities";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ManageVolunteers from "./pages/admin/ManageVolunteers";
 import ManageDonations from "./pages/admin/ManageDonations";
+import ManageCampaigns from "./pages/admin/ManageCampaigns";
+
+// Public campaign & donation pages
+import Campaigns from "./pages/Campaigns";
+import CampaignDetail from "./pages/CampaignDetail";
+import DonatePage from "./pages/DonatePage";
+import DonationSuccess from "./pages/DonationSuccess";
 
 // Auth pages
 import JoinUs from "./pages/auth/JoinUs";
@@ -59,6 +66,10 @@ const App = () => (
               <Route path="/activities/:id" element={<ActivityDetail />} />
               <Route path="/get-involved" element={<GetInvolved />} />
               <Route path="/donate" element={<Donate />} />
+              <Route path="/donate-now" element={<DonatePage />} />
+              <Route path="/donation-success" element={<DonationSuccess />} />
+              <Route path="/campaigns" element={<Campaigns />} />
+              <Route path="/campaigns/:slug" element={<CampaignDetail />} />
               <Route path="/transparency" element={<Transparency />} />
               <Route path="/contact" element={<Contact />} />
 
@@ -76,6 +87,7 @@ const App = () => (
               <Route path="/admin-users" element={<ProtectedRoute allowedRoles={["admin"]}><ManageUsers /></ProtectedRoute>} />
               <Route path="/admin-volunteers" element={<ProtectedRoute allowedRoles={["admin"]}><ManageVolunteers /></ProtectedRoute>} />
               <Route path="/admin-donations" element={<ProtectedRoute allowedRoles={["admin"]}><ManageDonations /></ProtectedRoute>} />
+              <Route path="/admin-campaigns" element={<ProtectedRoute allowedRoles={["admin"]}><ManageCampaigns /></ProtectedRoute>} />
 
               {/* Protected: Donor */}
               <Route path="/dashboard" element={<ProtectedRoute allowedRoles={["donor", "admin"]}><UserDashboard /></ProtectedRoute>} />

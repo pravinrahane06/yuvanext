@@ -15,9 +15,12 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
+import { Target } from "lucide-react";
+
 const navItems = [
   { label: "Dashboard", path: "/admin-dashboard", icon: LayoutDashboard },
   { label: "Activities", path: "/admin-manage-activities", icon: FileText },
+  { label: "Campaigns", path: "/admin-campaigns", icon: Target },
   { label: "Users", path: "/admin-users", icon: Users },
   { label: "Volunteers", path: "/admin-volunteers", icon: Heart },
   { label: "Donations", path: "/admin-donations", icon: DollarSign },
