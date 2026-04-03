@@ -14,6 +14,107 @@ export type Database = {
   }
   public: {
     Tables: {
+      campaigns: {
+        Row: {
+          created_at: string
+          description: string
+          end_date: string | null
+          featured_image: string | null
+          goal_amount: number
+          id: string
+          raised_amount: number
+          slug: string
+          start_date: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          end_date?: string | null
+          featured_image?: string | null
+          goal_amount?: number
+          id?: string
+          raised_amount?: number
+          slug: string
+          start_date?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          end_date?: string | null
+          featured_image?: string | null
+          goal_amount?: number
+          id?: string
+          raised_amount?: number
+          slug?: string
+          start_date?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      donations: {
+        Row: {
+          amount: number
+          campaign_id: string | null
+          cover_fee: boolean
+          created_at: string
+          id: string
+          is_anonymous: boolean
+          pan_number: string | null
+          payment_status: string
+          phone: string | null
+          transaction_id: string
+          tribute_name: string | null
+          type: Database["public"]["Enums"]["donation_type"]
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          campaign_id?: string | null
+          cover_fee?: boolean
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          pan_number?: string | null
+          payment_status?: string
+          phone?: string | null
+          transaction_id?: string
+          tribute_name?: string | null
+          type?: Database["public"]["Enums"]["donation_type"]
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          campaign_id?: string | null
+          cover_fee?: boolean
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          pan_number?: string | null
+          payment_status?: string
+          phone?: string | null
+          transaction_id?: string
+          tribute_name?: string | null
+          type?: Database["public"]["Enums"]["donation_type"]
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -77,6 +178,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "donor" | "volunteer"
+      donation_type: "one-time" | "recurring"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -205,6 +307,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "donor", "volunteer"],
+      donation_type: ["one-time", "recurring"],
     },
   },
 } as const
