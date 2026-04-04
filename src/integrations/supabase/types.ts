@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      activities: {
+        Row: {
+          created_at: string
+          featured_image: string | null
+          full_content: string | null
+          id: string
+          meta_description: string | null
+          meta_keywords: string | null
+          meta_title: string | null
+          short_description: string | null
+          slug: string
+          status: string
+          sub_keywords: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          featured_image?: string | null
+          full_content?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          meta_title?: string | null
+          short_description?: string | null
+          slug: string
+          status?: string
+          sub_keywords?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          featured_image?: string | null
+          full_content?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string | null
+          meta_title?: string | null
+          short_description?: string | null
+          slug?: string
+          status?: string
+          sub_keywords?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           created_at: string
