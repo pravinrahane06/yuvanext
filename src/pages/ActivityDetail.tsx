@@ -1,32 +1,45 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Tag, Share2, Facebook, Twitter, Linkedin } from "lucide-react";
+import { ArrowLeft, Calendar, Share2, Facebook, Twitter, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/layout/Layout";
-import { activities } from "@/data/siteData";
 import { useTranslation } from "@/hooks/useTranslation";
-
-const activityKeys = [
-  "treePlantation",
-  "healthCamp",
-  "digitalLiteracy",
-  "womenSHG",
-  "bloodDonation",
-  "careerCounseling",
-];
-
-const categoryKeys: Record<string, string> = {
-  "Environment": "categoriesData.environment",
-  "Health": "categoriesData.health",
-  "Education": "categoriesData.education",
-  "Women Empowerment": "categoriesData.womenEmpowerment",
-};
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 const ActivityDetail = () => {
   const { t, language } = useTranslation();
-  const { id } = useParams();
-  const activityIndex = activities.findIndex((a) => a.id === id);
-  const activity = activities[activityIndex];
+  const { id: slugParam } = useParams();
+
+  const { data: activity, isLoading } = useQuery({
+    queryKey: ["activity-detail", slugParam],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("activities")
+        .select("*")
+        .eq("slug", slugParam)
+        .eq("status", "published")
+        .single();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const { data: recentActivities = [] } = useQuery({
+    queryKey: ["recent-activities", slugParam],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("activities")
+        .select("id, title, slug, featured_image, created_at")
+        .eq("status", "published")
+        .neq("slug", slugParam)
+        .order("created_at", { ascending: false })
+        .limit(3);
+      if (error) throw error;
+      return data;
+    },
+  });
 
   const getLocalizedDate = (dateString: string) => {
     const locale = language === "mr" ? "mr-IN" : "en-IN";
@@ -36,6 +49,16 @@ const ActivityDetail = () => {
       day: "numeric",
     });
   };
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      </Layout>
+    );
+  }
 
   if (!activity) {
     return (
@@ -53,27 +76,24 @@ const ActivityDetail = () => {
     );
   }
 
-  const recentActivities = activities.filter((a) => a.id !== id).slice(0, 3);
-
   return (
     <Layout>
+      {/* Set SEO meta */}
+      {activity.meta_title && <title>{activity.meta_title}</title>}
+
       {/* Hero Image */}
       <div className="pt-20">
         <div className="relative h-[40vh] md:h-[50vh] bg-muted">
           <img
-            src={activity.image}
-            alt={t(`activitiesData.${activityKeys[activityIndex]}.title`)}
+            src={activity.featured_image || "/placeholder.svg"}
+            alt={activity.title}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-8">
             <div className="container mx-auto">
-              <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-sm font-medium rounded-full mb-4">
-                <Tag className="w-4 h-4" />
-                {t(categoryKeys[activity.category] || activity.category)}
-              </span>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-background max-w-3xl">
-                {t(`activitiesData.${activityKeys[activityIndex]}.title`)}
+                {activity.title}
               </h1>
             </div>
           </div>
@@ -84,7 +104,6 @@ const ActivityDetail = () => {
       <section className="py-12 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-12">
-            {/* Main Content */}
             <div className="lg:col-span-2">
               <Link
                 to="/activities"
@@ -97,17 +116,17 @@ const ActivityDetail = () => {
               <div className="flex items-center gap-4 text-muted-foreground mb-8">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-5 h-5" />
-                  {getLocalizedDate(activity.date)}
+                  {getLocalizedDate(activity.created_at)}
                 </div>
               </div>
 
               <div className="prose prose-lg max-w-none">
                 <p className="text-xl text-muted-foreground leading-relaxed mb-6">
-                  {t(`activitiesData.${activityKeys[activityIndex]}.excerpt`)}
+                  {activity.short_description}
                 </p>
-                <p className="text-foreground leading-relaxed">
-                  {t(`activitiesData.${activityKeys[activityIndex]}.content`)}
-                </p>
+                <div className="text-foreground leading-relaxed whitespace-pre-wrap">
+                  {activity.full_content}
+                </div>
               </div>
 
               {/* Share */}
@@ -139,34 +158,31 @@ const ActivityDetail = () => {
                   {t("activities.recentActivities")}
                 </h3>
                 <div className="space-y-4">
-                  {recentActivities.map((item) => {
-                    const itemIndex = activities.findIndex((a) => a.id === item.id);
-                    return (
-                      <Card key={item.id} className="card-hover">
-                        <CardContent className="p-4">
-                          <Link to={`/activities/${item.id}`}>
-                            <div className="flex gap-4">
-                              <div className="w-20 h-20 rounded-lg bg-muted overflow-hidden shrink-0">
-                                <img
-                                  src={item.image}
-                                  alt={t(`activitiesData.${activityKeys[itemIndex]}.title`)}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <div>
-                                <h4 className="font-medium text-foreground hover:text-primary transition-colors line-clamp-2">
-                                  {t(`activitiesData.${activityKeys[itemIndex]}.title`)}
-                                </h4>
-                                <p className="text-sm text-muted-foreground mt-1">
-                                  {getLocalizedDate(item.date)}
-                                </p>
-                              </div>
+                  {recentActivities.map((item) => (
+                    <Card key={item.id} className="card-hover">
+                      <CardContent className="p-4">
+                        <Link to={`/activities/${item.slug}`}>
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 rounded-lg bg-muted overflow-hidden shrink-0">
+                              <img
+                                src={item.featured_image || "/placeholder.svg"}
+                                alt={item.title}
+                                className="w-full h-full object-cover"
+                              />
                             </div>
-                          </Link>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                            <div>
+                              <h4 className="font-medium text-foreground hover:text-primary transition-colors line-clamp-2">
+                                {item.title}
+                              </h4>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                {getLocalizedDate(item.created_at)}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
 
                 {/* CTA Box */}

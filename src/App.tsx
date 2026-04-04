@@ -66,7 +66,7 @@ const App = () => (
               <Route path="/objectives" element={<Objectives />} />
               <Route path="/programs" element={<Programs />} />
               <Route path="/activities" element={<Activities />} />
-              <Route path="/activities/:id" element={<ActivityDetail />} />
+              <Route path="/activities/:id" element={<ActivityDetail />} /> {/* :id is slug */}
               <Route path="/get-involved" element={<GetInvolved />} />
               <Route path="/donate" element={<Donate />} />
               <Route path="/donate-now" element={<DonatePage />} />

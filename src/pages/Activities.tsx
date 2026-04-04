@@ -1,33 +1,29 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Calendar, Tag } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/layout/Layout";
 import PageHero from "@/components/ui/PageHero";
-import { activities } from "@/data/siteData";
 import { useTranslation } from "@/hooks/useTranslation";
-
-const activityKeys = [
-  "treePlantation",
-  "healthCamp",
-  "digitalLiteracy",
-  "womenSHG",
-  "bloodDonation",
-  "careerCounseling",
-];
-
-const categoryKeys: Record<string, string> = {
-  "Environment": "categoriesData.environment",
-  "Health": "categoriesData.health",
-  "Education": "categoriesData.education",
-  "Women Empowerment": "categoriesData.womenEmpowerment",
-};
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 const Activities = () => {
   const { t, language } = useTranslation();
 
-  // Get unique categories
-  const categories = [...new Set(activities.map((a) => a.category))];
+  const { data: activities = [], isLoading } = useQuery({
+    queryKey: ["public-activities"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("activities")
+        .select("*")
+        .eq("status", "published")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
 
   const getLocalizedDate = (dateString: string) => {
     const locale = language === "mr" ? "mr-IN" : "en-IN";
@@ -45,74 +41,53 @@ const Activities = () => {
         subtitle={t("activities.subtitle")}
       />
 
-      {/* Filter Section */}
-      <section className="py-8 bg-background border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap gap-3 justify-center">
-            <Button variant="default" size="sm">
-              {t("activities.all")}
-            </Button>
-            {categories.map((category) => (
-              <Button key={category} variant="outline" size="sm">
-                {t(categoryKeys[category] || category)}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Activities Grid */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {activities.map((activity, index) => (
-              <Card
-                key={activity.id}
-                className="card-hover overflow-hidden group"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="aspect-video bg-muted relative overflow-hidden">
-                  <img
-                    src={activity.image}
-                    alt={t(`activitiesData.${activityKeys[index]}.title`)}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full">
-                      <Tag className="w-3 h-3" />
-                      {t(categoryKeys[activity.category] || activity.category)}
-                    </span>
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            </div>
+          ) : activities.length === 0 ? (
+            <p className="text-center text-muted-foreground py-12">{t("activities.noActivities") || "No activities published yet."}</p>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {activities.map((activity, index) => (
+                <Card
+                  key={activity.id}
+                  className="card-hover overflow-hidden group"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="aspect-video bg-muted relative overflow-hidden">
+                    <img
+                      src={activity.featured_image || "/placeholder.svg"}
+                      alt={activity.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
                   </div>
-                </div>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                    <Calendar className="w-4 h-4" />
-                    {getLocalizedDate(activity.date)}
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                    {t(`activitiesData.${activityKeys[index]}.title`)}
-                  </h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-3">
-                    {t(`activitiesData.${activityKeys[index]}.excerpt`)}
-                  </p>
-                  <Link
-                    to={`/activities/${activity.id}`}
-                    className="inline-flex items-center text-primary font-medium hover:gap-2 transition-all"
-                  >
-                    {t("activities.readMore")}
-                    <ArrowRight className="ml-1 w-4 h-4" />
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Load More */}
-          <div className="text-center mt-12">
-            <Button variant="outline" size="lg">
-              {t("activities.loadMore")}
-            </Button>
-          </div>
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                      <Calendar className="w-4 h-4" />
+                      {getLocalizedDate(activity.created_at)}
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                      {activity.title}
+                    </h3>
+                    <p className="text-muted-foreground mb-4 line-clamp-3">
+                      {activity.short_description}
+                    </p>
+                    <Link
+                      to={`/activities/${activity.slug}`}
+                      className="inline-flex items-center text-primary font-medium hover:gap-2 transition-all"
+                    >
+                      {t("activities.readMore")}
+                      <ArrowRight className="ml-1 w-4 h-4" />
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
