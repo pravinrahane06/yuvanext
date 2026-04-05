@@ -13,7 +13,20 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const { isAuthenticated, role, logout } = useAuth();
+
+  const getDashboardPath = () => {
+    if (role === "admin") return "/admin-dashboard";
+    if (role === "volunteer") return "/volunteer-dashboard";
+    return "/dashboard";
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
 
   const navLinks = [
     { label: t("nav.home"), href: "/" },
