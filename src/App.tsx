@@ -38,6 +38,15 @@ import CampaignDetail from "./pages/CampaignDetail";
 import DonatePage from "./pages/DonatePage";
 import DonationSuccess from "./pages/DonationSuccess";
 
+// New NGO feature pages
+import SupporterWall from "./pages/SupporterWall";
+import Fundraising from "./pages/Fundraising";
+import CreateFundraiser from "./pages/CreateFundraiser";
+import FundraiserDetail from "./pages/FundraiserDetail";
+import CSR from "./pages/CSR";
+import DonorIdCard from "./pages/DonorIdCard";
+import NotificationPreferences from "./pages/NotificationPreferences";
+
 // Auth pages
 import JoinUs from "./pages/auth/JoinUs";
 import Login from "./pages/auth/Login";
@@ -75,6 +84,10 @@ const App = () => (
               <Route path="/campaigns/:slug" element={<CampaignDetail />} />
               <Route path="/transparency" element={<Transparency />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/supporter-wall" element={<SupporterWall />} />
+              <Route path="/fundraising" element={<Fundraising />} />
+              <Route path="/fundraising/:slug" element={<FundraiserDetail />} />
+              <Route path="/csr" element={<CSR />} />
 
               {/* Auth */}
               <Route path="/join-us" element={<JoinUs />} />
@@ -97,6 +110,9 @@ const App = () => (
 
               {/* Protected: Donor */}
               <Route path="/dashboard" element={<ProtectedRoute allowedRoles={["donor", "admin"]}><UserDashboard /></ProtectedRoute>} />
+              <Route path="/donor-id-card" element={<ProtectedRoute allowedRoles={["donor", "admin"]}><DonorIdCard /></ProtectedRoute>} />
+              <Route path="/notification-preferences" element={<ProtectedRoute allowedRoles={["donor", "volunteer", "admin"]}><NotificationPreferences /></ProtectedRoute>} />
+              <Route path="/create-fundraiser" element={<ProtectedRoute allowedRoles={["donor", "volunteer", "admin"]}><CreateFundraiser /></ProtectedRoute>} />
 
               {/* Protected: Volunteer */}
               <Route path="/volunteer-dashboard" element={<ProtectedRoute allowedRoles={["volunteer", "admin"]}><VolunteerDashboard /></ProtectedRoute>} />
