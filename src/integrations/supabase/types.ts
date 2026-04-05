@@ -163,6 +163,48 @@ export type Database = {
           },
         ]
       }
+      fundraising_pages: {
+        Row: {
+          created_at: string
+          description: string | null
+          featured_image: string | null
+          goal_amount: number
+          id: string
+          raised_amount: number
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          featured_image?: string | null
+          goal_amount?: number
+          id?: string
+          raised_amount?: number
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          featured_image?: string | null
+          goal_amount?: number
+          id?: string
+          raised_amount?: number
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
