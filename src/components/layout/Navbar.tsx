@@ -248,9 +248,20 @@ const Navbar = () => {
               <Button asChild variant="outline" className="flex-1">
                 <Link to="/donate">{t("nav.donate")}</Link>
               </Button>
-              <Button asChild className="flex-1">
-                <Link to="/get-involved">{t("nav.joinUs")}</Link>
-              </Button>
+              {isAuthenticated ? (
+                <>
+                  <Button asChild className="flex-1">
+                    <Link to={getDashboardPath()}>Dashboard</Link>
+                  </Button>
+                  <Button variant="outline" className="flex-1" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <Button asChild className="flex-1">
+                  <Link to="/login">{t("nav.joinUs")}</Link>
+                </Button>
+              )}
             </div>
           </div>
         </div>
