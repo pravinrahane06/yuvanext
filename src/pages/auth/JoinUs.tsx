@@ -26,8 +26,8 @@ const JoinUs = () => {
     if (error) {
       toast({ title: "Registration Failed", description: error, variant: "destructive" });
     } else {
-      toast({ title: "Welcome to YUVANEXT!", description: "Your account has been created." });
-      navigate("/dashboard");
+      toast({ title: "Welcome to YUVANEXT!", description: "Please check your email to verify your account before logging in." });
+      navigate("/login");
     }
   };
 

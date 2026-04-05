@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Layout from "@/components/layout/Layout";
@@ -16,13 +16,14 @@ const Login = () => {
   const { login, isAuthenticated, role } = useAuth();
   const navigate = useNavigate();
 
-  // If already authenticated, redirect
-  if (isAuthenticated && role) {
-    if (role === "admin") navigate("/admin-dashboard", { replace: true });
-    else if (role === "volunteer") navigate("/volunteer-dashboard", { replace: true });
-    else navigate("/dashboard", { replace: true });
-    return null;
-  }
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated && role) {
+      if (role === "admin") navigate("/admin-dashboard", { replace: true });
+      else if (role === "volunteer") navigate("/volunteer-dashboard", { replace: true });
+      else navigate("/dashboard", { replace: true });
+    }
+  }, [isAuthenticated, role, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

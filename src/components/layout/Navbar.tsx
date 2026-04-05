@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, ChevronDown, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
@@ -12,7 +13,20 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const { isAuthenticated, role, logout } = useAuth();
+
+  const getDashboardPath = () => {
+    if (role === "admin") return "/admin-dashboard";
+    if (role === "volunteer") return "/volunteer-dashboard";
+    return "/dashboard";
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
 
   const navLinks = [
     { label: t("nav.home"), href: "/" },
@@ -125,9 +139,24 @@ const Navbar = () => {
             <Button asChild variant="outline" size="sm">
               <Link to="/donate">{t("nav.donate")}</Link>
             </Button>
-            <Button asChild size="sm">
-              <Link to="/get-involved">{t("nav.joinUs")}</Link>
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Button asChild size="sm">
+                  <Link to={getDashboardPath()}>
+                    <LayoutDashboard className="w-4 h-4 mr-1" />
+                    Dashboard
+                  </Link>
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleLogout}>
+                  <LogOut className="w-4 h-4 mr-1" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button asChild size="sm">
+                <Link to="/login">{t("nav.joinUs")}</Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -219,9 +248,20 @@ const Navbar = () => {
               <Button asChild variant="outline" className="flex-1">
                 <Link to="/donate">{t("nav.donate")}</Link>
               </Button>
-              <Button asChild className="flex-1">
-                <Link to="/get-involved">{t("nav.joinUs")}</Link>
-              </Button>
+              {isAuthenticated ? (
+                <>
+                  <Button asChild className="flex-1">
+                    <Link to={getDashboardPath()}>Dashboard</Link>
+                  </Button>
+                  <Button variant="outline" className="flex-1" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <Button asChild className="flex-1">
+                  <Link to="/login">{t("nav.joinUs")}</Link>
+                </Button>
+              )}
             </div>
           </div>
         </div>
