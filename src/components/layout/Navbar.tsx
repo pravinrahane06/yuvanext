@@ -139,9 +139,24 @@ const Navbar = () => {
             <Button asChild variant="outline" size="sm">
               <Link to="/donate">{t("nav.donate")}</Link>
             </Button>
-            <Button asChild size="sm">
-              <Link to="/get-involved">{t("nav.joinUs")}</Link>
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Button asChild size="sm">
+                  <Link to={getDashboardPath()}>
+                    <LayoutDashboard className="w-4 h-4 mr-1" />
+                    Dashboard
+                  </Link>
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleLogout}>
+                  <LogOut className="w-4 h-4 mr-1" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button asChild size="sm">
+                <Link to="/login">{t("nav.joinUs")}</Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
